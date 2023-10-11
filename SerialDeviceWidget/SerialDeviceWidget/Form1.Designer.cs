@@ -72,8 +72,9 @@
             this.buttonCheckAll.Name = "buttonCheckAll";
             this.buttonCheckAll.Size = new System.Drawing.Size(60, 23);
             this.buttonCheckAll.TabIndex = 1;
-            this.buttonCheckAll.Text = "All";
+            this.buttonCheckAll.Text = "Check all";
             this.buttonCheckAll.UseVisualStyleBackColor = true;
+            this.buttonCheckAll.Click += new System.EventHandler(this.buttonCheckAll_Click);
             // 
             // buttonRefresh
             // 
@@ -91,8 +92,9 @@
             this.buttonApply.Name = "buttonApply";
             this.buttonApply.Size = new System.Drawing.Size(60, 23);
             this.buttonApply.TabIndex = 4;
-            this.buttonApply.Text = "Apply";
+            this.buttonApply.Text = "Hide";
             this.buttonApply.UseVisualStyleBackColor = true;
+            this.buttonApply.Click += new System.EventHandler(this.buttonApply_Click);
             // 
             // notifyIconMain
             // 
@@ -106,34 +108,34 @@
             this.contextMenuStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemRefresh,
             this.toolStripSeparator2,
-            this.toolStripMenuItemExit,
-            this.toolStripSeparator1});
+            this.toolStripSeparator1,
+            this.toolStripMenuItemExit});
             this.contextMenuStripMain.Name = "contextMenuStrip1";
             this.contextMenuStripMain.Size = new System.Drawing.Size(114, 60);
             // 
             // toolStripMenuItemRefresh
             // 
             this.toolStripMenuItemRefresh.Name = "toolStripMenuItemRefresh";
-            this.toolStripMenuItemRefresh.Size = new System.Drawing.Size(113, 22);
+            this.toolStripMenuItemRefresh.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItemRefresh.Text = "Refresh";
             this.toolStripMenuItemRefresh.Click += new System.EventHandler(this.toolStripMenuItemRefresh_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(110, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // toolStripMenuItemExit
             // 
             this.toolStripMenuItemExit.Name = "toolStripMenuItemExit";
-            this.toolStripMenuItemExit.Size = new System.Drawing.Size(113, 22);
+            this.toolStripMenuItemExit.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItemExit.Text = "Exit";
             this.toolStripMenuItemExit.Click += new System.EventHandler(this.toolStripMenuItemExit_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(110, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // FormMain
             // 

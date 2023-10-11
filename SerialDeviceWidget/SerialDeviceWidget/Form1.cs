@@ -13,7 +13,7 @@ namespace SerialDeviceWidget
 {
     public partial class FormMain : Form
     {
-        public List<String> PortNames;
+        public List<String> PortNames;//The list for port names store
 
         public FormMain()
         {
@@ -38,9 +38,8 @@ namespace SerialDeviceWidget
         }
 
         private void RefreshEnumeration()
-        {
-            //Serial ports list clear
-            foreach (String portName in PortNames)
+        {            
+            foreach (String portName in PortNames) //Clearing of the list of serial ports
             {
                 contextMenuStripMain.Items.RemoveByKey(portName);
                 listViewSerial.Items.RemoveByKey(portName);
@@ -55,28 +54,31 @@ namespace SerialDeviceWidget
             {
                 //Choosing from the Win32 WMI list of the PnP devices, which contains the COM ports
                 ManagementObjectSearcher searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_PnPEntity WHERE Name LIKE '%(COM[0-9]%'");
+
                 //Add the numeration for port names
-                int portCounter = 0;
+                int portCounter = 1;
                 foreach (ManagementObject queryObj in searcher.Get())//Took all port names from query result
                 {
                     PortNames.Add("AddedPort" + portCounter.ToString());
+                    portCounter++;
                     string res = String.Format("{0}", queryObj["Caption"]);
                     var portMenuItem = new ToolStripMenuItem(res);
                     portMenuItem.Name = PortNames.Last();
                     var portListViewItem = new ListViewItem(res);
-                    portListViewItem.Name = PortNames.Last();
-                    //portMenuItem.Click += PortMenuItem_Click;
-                    contextMenuStripMain.Items.Add(portMenuItem);
+                    portListViewItem.Name = PortNames.Last();                    
+                    //contextMenuStripMain.Items.Add(portMenuItem);
+                    contextMenuStripMain.Items.Insert(portCounter, portMenuItem);
                     listViewSerial.Items.Add(portListViewItem);
                 }
             }
             catch (ManagementException e) //In case of error output error message to devices list
             {
-                //Console.WriteLine("An error occurred while querying for WMI data: " + e.Message);
                 var portMenuItem = new ToolStripMenuItem("An error occurred while querying for WMI data: " + e.Message);
                 contextMenuStripMain.Items.Add(portMenuItem);
             }
         }
+
+
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
@@ -84,6 +86,21 @@ namespace SerialDeviceWidget
             base.OnFormClosing(e);
         }
 
-      
+        private void buttonCheckAll_Click(object sender, EventArgs e)
+        {
+            foreach(ListViewItem item in listViewSerial.Items)
+            {
+                item.Checked = true;
+            }
+        }
+
+        private void buttonApply_Click(object sender, EventArgs e)
+        {
+            foreach(var item in listViewSerial.CheckedIndices)
+            {
+                contextMenuStripMain.Items.RemoveAt((int)item);
+            }
+        }
+
     }    
 }
