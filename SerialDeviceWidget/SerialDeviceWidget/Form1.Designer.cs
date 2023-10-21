@@ -30,8 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            this.groupBox = new System.Windows.Forms.GroupBox();
-            this.listViewSerial = new System.Windows.Forms.ListView();
             this.buttonCheckAll = new System.Windows.Forms.Button();
             this.buttonRefresh = new System.Windows.Forms.Button();
             this.buttonApply = new System.Windows.Forms.Button();
@@ -42,35 +40,15 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.timerRefresh = new System.Windows.Forms.Timer(this.components);
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelRefreshMin = new System.Windows.Forms.Label();
             this.trackBarRefreshRate = new System.Windows.Forms.TrackBar();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.groupBox.SuspendLayout();
+            this.labelRefreshMax = new System.Windows.Forms.Label();
+            this.labelRefresh = new System.Windows.Forms.Label();
+            this.checkedListBoxSerialDevices = new System.Windows.Forms.CheckedListBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.contextMenuStripMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarRefreshRate)).BeginInit();
             this.SuspendLayout();
-            // 
-            // groupBox
-            // 
-            this.groupBox.Controls.Add(this.listViewSerial);
-            this.groupBox.Location = new System.Drawing.Point(12, 12);
-            this.groupBox.Name = "groupBox";
-            this.groupBox.Size = new System.Drawing.Size(305, 397);
-            this.groupBox.TabIndex = 0;
-            this.groupBox.TabStop = false;
-            this.groupBox.Text = "List of serial devices";
-            // 
-            // listViewSerial
-            // 
-            this.listViewSerial.CheckBoxes = true;
-            this.listViewSerial.HideSelection = false;
-            this.listViewSerial.Location = new System.Drawing.Point(6, 19);
-            this.listViewSerial.Name = "listViewSerial";
-            this.listViewSerial.Size = new System.Drawing.Size(293, 372);
-            this.listViewSerial.TabIndex = 0;
-            this.listViewSerial.UseCompatibleStateImageBehavior = false;
-            this.listViewSerial.View = System.Windows.Forms.View.List;
             // 
             // buttonCheckAll
             // 
@@ -94,7 +72,7 @@
             // 
             // buttonApply
             // 
-            this.buttonApply.Location = new System.Drawing.Point(257, 415);
+            this.buttonApply.Location = new System.Drawing.Point(252, 415);
             this.buttonApply.Name = "buttonApply";
             this.buttonApply.Size = new System.Drawing.Size(60, 22);
             this.buttonApply.TabIndex = 4;
@@ -147,14 +125,14 @@
             // 
             this.timerRefresh.Interval = 60000;
             // 
-            // label1
+            // labelRefreshMin
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 448);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 13);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "100 ms";
+            this.labelRefreshMin.AutoSize = true;
+            this.labelRefreshMin.Location = new System.Drawing.Point(15, 448);
+            this.labelRefreshMin.Name = "labelRefreshMin";
+            this.labelRefreshMin.Size = new System.Drawing.Size(41, 13);
+            this.labelRefreshMin.TabIndex = 6;
+            this.labelRefreshMin.Text = "100 ms";
             // 
             // trackBarRefreshRate
             // 
@@ -166,41 +144,58 @@
             this.trackBarRefreshRate.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
             this.trackBarRefreshRate.Value = 10;
             // 
-            // label2
+            // labelRefreshMax
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(279, 448);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(38, 13);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "10 min";
+            this.labelRefreshMax.AutoSize = true;
+            this.labelRefreshMax.Location = new System.Drawing.Point(271, 448);
+            this.labelRefreshMax.Name = "labelRefreshMax";
+            this.labelRefreshMax.Size = new System.Drawing.Size(38, 13);
+            this.labelRefreshMax.TabIndex = 8;
+            this.labelRefreshMax.Text = "10 min";
             // 
-            // label3
+            // labelRefresh
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(93, 448);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(72, 13);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "Refresh time: ";
+            this.labelRefresh.AutoSize = true;
+            this.labelRefresh.Location = new System.Drawing.Point(93, 448);
+            this.labelRefresh.Name = "labelRefresh";
+            this.labelRefresh.Size = new System.Drawing.Size(71, 13);
+            this.labelRefresh.TabIndex = 9;
+            this.labelRefresh.Text = "Refresh rate: ";
+            // 
+            // checkedListBoxSerialDevices
+            // 
+            this.checkedListBoxSerialDevices.FormattingEnabled = true;
+            this.checkedListBoxSerialDevices.Location = new System.Drawing.Point(12, 30);
+            this.checkedListBoxSerialDevices.Name = "checkedListBoxSerialDevices";
+            this.checkedListBoxSerialDevices.Size = new System.Drawing.Size(300, 379);
+            this.checkedListBoxSerialDevices.TabIndex = 10;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(128, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(88, 13);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "Serial devices list";
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(324, 521);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.trackBarRefreshRate);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.checkedListBoxSerialDevices);
+            this.Controls.Add(this.labelRefresh);
+            this.Controls.Add(this.labelRefreshMax);
+            this.Controls.Add(this.trackBarRefreshRate);
+            this.Controls.Add(this.labelRefreshMin);
             this.Controls.Add(this.buttonApply);
             this.Controls.Add(this.buttonRefresh);
             this.Controls.Add(this.buttonCheckAll);
-            this.Controls.Add(this.groupBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FormMain";
             this.Text = "SerialDevices";
-            this.groupBox.ResumeLayout(false);
             this.contextMenuStripMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.trackBarRefreshRate)).EndInit();
             this.ResumeLayout(false);
@@ -209,9 +204,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.GroupBox groupBox;
-        private System.Windows.Forms.ListView listViewSerial;
         private System.Windows.Forms.Button buttonCheckAll;
         private System.Windows.Forms.Button buttonRefresh;
         private System.Windows.Forms.Button buttonApply;
@@ -222,10 +214,12 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExit;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.Timer timerRefresh;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelRefreshMin;
         private System.Windows.Forms.TrackBar trackBarRefreshRate;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label labelRefreshMax;
+        private System.Windows.Forms.Label labelRefresh;
+        private System.Windows.Forms.CheckedListBox checkedListBoxSerialDevices;
+        private System.Windows.Forms.Label label1;
     }
 }
 

@@ -16,7 +16,11 @@ namespace SerialDeviceWidget
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormMain());
+
+            Model model = new Model();
+            FormMain formMain = new FormMain(model);
+
+            Application.Run(formMain);
         }
     }
 }

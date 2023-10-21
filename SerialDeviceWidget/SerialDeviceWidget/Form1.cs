@@ -14,12 +14,66 @@ namespace SerialDeviceWidget
     public partial class FormMain : Form
     {
         public List<String> PortNames;//The list for port names store
-
-        public FormMain()
+        public Model model;
+        public BindingList<string> bindingList;
+        private bool itemsChecked;
+        public FormMain(Model model)
         {
+            this.model = model;
             InitializeComponent();
-            PortNames = new List<string>();
-            EnumarateCOMPortsWMI();
+            this.bindingList = new BindingList<string>(model.GetSerialDevices());
+            model.RefreshRate = 1000;
+            checkedListBoxSerialDevices.DataSource = bindingList;
+            checkedListBoxSerialDevices.DisplayMember = "Serial Device";
+            model.SerialListUpdated += ModelSerialDeviceListUpdated;
+            EnumarateCOMPortsWMI();            
+            UpdateToolStripMenu();
+
+        }
+
+        private void ModelSerialDeviceListUpdated(object sender, EventArgs e)
+        {
+            bindingList.ResetBindings();
+        }
+
+        private bool CheckAll()
+        {
+            for(int i = 0; i < checkedListBoxSerialDevices.Items.Count; i++)
+            {
+                checkedListBoxSerialDevices.SetItemChecked(i, true);
+            }
+            return true;
+        }
+
+        private bool UnCheckAll()
+        {
+            for (int i = 0; i < checkedListBoxSerialDevices.Items.Count; i++)
+            {
+                checkedListBoxSerialDevices.SetItemChecked(i, false);
+            }
+            return false;
+        }
+
+        private void UpdateToolStripMenu()
+        {
+            ClearToolStripMenu();
+            int portCounter = 1;
+            foreach (string item in checkedListBoxSerialDevices.CheckedItems)
+            {
+                portCounter++;
+                var portMenuItem = new ToolStripMenuItem(item);                
+                portMenuItem.Name = model.AddPortName(portCounter);
+                contextMenuStripMain.Items.Insert(portCounter, portMenuItem);
+            }
+        }
+
+        private void ClearToolStripMenu()
+        {
+            foreach(string name in model.GetPortNames())
+            {
+                contextMenuStripMain.Items.RemoveByKey(name);
+            }
+            model.ClearPortNames();
         }
 
         private void toolStripMenuItemExit_Click(object sender, EventArgs e)
@@ -38,37 +92,25 @@ namespace SerialDeviceWidget
         }
 
         private void RefreshEnumeration()
-        {            
-            foreach (String portName in PortNames) //Clearing of the list of serial ports
-            {
-                contextMenuStripMain.Items.RemoveByKey(portName);
-                listViewSerial.Items.RemoveByKey(portName);
-            }
-            PortNames.Clear();
+        {
+            bindingList.Clear();
             EnumarateCOMPortsWMI();
+            UpdateToolStripMenu();
+
         }
 
         private void EnumarateCOMPortsWMI()
         {
+            model.ClearSerialDeviceList();
             try
             {
                 //Choosing from the Win32 WMI list of the PnP devices, which contains the COM ports
                 ManagementObjectSearcher searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_PnPEntity WHERE Name LIKE '%(COM[0-9]%'");
 
-                //Add the numeration for port names
-                int portCounter = 1;
                 foreach (ManagementObject queryObj in searcher.Get())//Took all port names from query result
                 {
-                    PortNames.Add("AddedPort" + portCounter.ToString());
-                    portCounter++;
                     string res = String.Format("{0}", queryObj["Caption"]);
-                    var portMenuItem = new ToolStripMenuItem(res);
-                    portMenuItem.Name = PortNames.Last();
-                    var portListViewItem = new ListViewItem(res);
-                    portListViewItem.Name = PortNames.Last();                    
-                    //contextMenuStripMain.Items.Add(portMenuItem);
-                    contextMenuStripMain.Items.Insert(portCounter, portMenuItem);
-                    listViewSerial.Items.Add(portListViewItem);
+                    model.AddSerialDevice(res);
                 }
             }
             catch (ManagementException e) //In case of error output error message to devices list
@@ -76,6 +118,7 @@ namespace SerialDeviceWidget
                 var portMenuItem = new ToolStripMenuItem("An error occurred while querying for WMI data: " + e.Message);
                 contextMenuStripMain.Items.Add(portMenuItem);
             }
+            itemsChecked = CheckAll();
         }
 
 
@@ -88,19 +131,19 @@ namespace SerialDeviceWidget
 
         private void buttonCheckAll_Click(object sender, EventArgs e)
         {
-            foreach(ListViewItem item in listViewSerial.Items)
+            if(itemsChecked)
             {
-                item.Checked = true;
+                itemsChecked = UnCheckAll();
             }
+            else
+            {
+                itemsChecked = CheckAll();
+            }            
         }
 
         private void buttonApply_Click(object sender, EventArgs e)
         {
-            foreach(var item in listViewSerial.CheckedIndices)
-            {
-                contextMenuStripMain.Items.RemoveAt((int)item);
-            }
+            UpdateToolStripMenu();
         }
-
     }    
 }
