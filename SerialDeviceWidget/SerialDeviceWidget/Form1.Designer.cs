@@ -52,9 +52,9 @@
             // 
             // buttonCheckAll
             // 
-            this.buttonCheckAll.Location = new System.Drawing.Point(18, 415);
+            this.buttonCheckAll.Location = new System.Drawing.Point(12, 415);
             this.buttonCheckAll.Name = "buttonCheckAll";
-            this.buttonCheckAll.Size = new System.Drawing.Size(60, 22);
+            this.buttonCheckAll.Size = new System.Drawing.Size(80, 22);
             this.buttonCheckAll.TabIndex = 1;
             this.buttonCheckAll.Text = "All";
             this.buttonCheckAll.UseVisualStyleBackColor = true;
@@ -72,9 +72,9 @@
             // 
             // buttonApply
             // 
-            this.buttonApply.Location = new System.Drawing.Point(252, 415);
+            this.buttonApply.Location = new System.Drawing.Point(232, 415);
             this.buttonApply.Name = "buttonApply";
-            this.buttonApply.Size = new System.Drawing.Size(60, 22);
+            this.buttonApply.Size = new System.Drawing.Size(80, 22);
             this.buttonApply.TabIndex = 4;
             this.buttonApply.Text = "Hide";
             this.buttonApply.UseVisualStyleBackColor = true;
