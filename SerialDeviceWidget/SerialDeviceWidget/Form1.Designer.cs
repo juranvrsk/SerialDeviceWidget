@@ -124,15 +124,16 @@
             // timerRefresh
             // 
             this.timerRefresh.Interval = 60000;
+            this.timerRefresh.Tick += new System.EventHandler(this.timerRefresh_Tick);
             // 
             // labelRefreshMin
             // 
             this.labelRefreshMin.AutoSize = true;
             this.labelRefreshMin.Location = new System.Drawing.Point(15, 448);
             this.labelRefreshMin.Name = "labelRefreshMin";
-            this.labelRefreshMin.Size = new System.Drawing.Size(41, 13);
+            this.labelRefreshMin.Size = new System.Drawing.Size(21, 13);
             this.labelRefreshMin.TabIndex = 6;
-            this.labelRefreshMin.Text = "100 ms";
+            this.labelRefreshMin.Text = "1 s";
             // 
             // trackBarRefreshRate
             // 
@@ -143,6 +144,7 @@
             this.trackBarRefreshRate.TabIndex = 7;
             this.trackBarRefreshRate.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
             this.trackBarRefreshRate.Value = 10;
+            this.trackBarRefreshRate.ValueChanged += new System.EventHandler(this.trackBarRefreshRate_ValueChanged);
             // 
             // labelRefreshMax
             // 
@@ -151,7 +153,7 @@
             this.labelRefreshMax.Name = "labelRefreshMax";
             this.labelRefreshMax.Size = new System.Drawing.Size(38, 13);
             this.labelRefreshMax.TabIndex = 8;
-            this.labelRefreshMax.Text = "10 min";
+            this.labelRefreshMax.Text = "30 min";
             // 
             // labelRefresh
             // 
