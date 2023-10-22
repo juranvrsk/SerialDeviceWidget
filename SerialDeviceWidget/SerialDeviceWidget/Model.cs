@@ -9,8 +9,25 @@ namespace SerialDeviceWidget
     public class Model
     {
         public event EventHandler SerialListUpdated;
+        public event EventHandler RefreshRateUpdated;
         private List<string> serialList = new List<string>();
         public int RefreshRate { get; set; }
+
+        public string RefreshPeriod 
+        { 
+            get
+            {
+                return GetRefreshString();
+            }
+        }
+        public int RefreshMillis
+        { 
+            get
+            {
+                return GetRefreshMillis();
+            }
+        }
+
         private List<string> portNames = new List<string>();
 
         public List<string> GetSerialDevices()

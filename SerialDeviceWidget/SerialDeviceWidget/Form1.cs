@@ -22,10 +22,13 @@ namespace SerialDeviceWidget
             this.model = model;
             InitializeComponent();
             this.bindingList = new BindingList<string>(model.GetSerialDevices());
-            model.RefreshRate = 1000;
+            model.RefreshRate = trackBarRefreshRate.Value;
             checkedListBoxSerialDevices.DataSource = bindingList;
             checkedListBoxSerialDevices.DisplayMember = "Serial Device";
             model.SerialListUpdated += ModelSerialDeviceListUpdated;
+            labelRefresh.Text += model.GetRefreshString();
+            timerRefresh.Start();
+
             EnumarateCOMPortsWMI();            
             UpdateToolStripMenu();
 
@@ -78,6 +81,7 @@ namespace SerialDeviceWidget
 
         private void toolStripMenuItemExit_Click(object sender, EventArgs e)
         {
+            timerRefresh.Stop();
             Application.Exit();
         }
 
@@ -145,5 +149,18 @@ namespace SerialDeviceWidget
         {
             UpdateToolStripMenu();
         }
+
+        private void trackBarRefreshRate_ValueChanged(object sender, EventArgs e)
+        {
+            model.RefreshRate = trackBarRefreshRate.Value;
+            labelRefresh.Text = $"Refresh rate: {model.GetRefreshString()}";
+            timerRefresh.Interval = model.GetRefreshMillis();
+        }
+
+        private void timerRefresh_Tick(object sender, EventArgs e)
+        {
+            RefreshEnumeration();
+        }
+
     }    
 }
