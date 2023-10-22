@@ -86,6 +86,7 @@
             this.notifyIconMain.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIconMain.Icon")));
             this.notifyIconMain.Text = "SerialDeviceWidget";
             this.notifyIconMain.Visible = true;
+            this.notifyIconMain.DoubleClick += new System.EventHandler(this.notifyIconMain_Click);
             // 
             // contextMenuStripMain
             // 
@@ -198,6 +199,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FormMain";
             this.Text = "SerialDevices";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.contextMenuStripMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.trackBarRefreshRate)).EndInit();
             this.ResumeLayout(false);

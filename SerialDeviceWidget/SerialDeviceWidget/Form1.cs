@@ -80,8 +80,10 @@ namespace SerialDeviceWidget
         }
 
         private void toolStripMenuItemExit_Click(object sender, EventArgs e)
-        {
+        {            
             timerRefresh.Stop();
+            notifyIconMain.Visible = false;
+            //base.OnFormClosing(e);
             Application.Exit();
         }
 
@@ -127,11 +129,11 @@ namespace SerialDeviceWidget
 
 
 
-        protected override void OnFormClosing(FormClosingEventArgs e)
+        /*protected override void OnFormClosing(FormClosingEventArgs e)
         {
             notifyIconMain.Visible = false;
             base.OnFormClosing(e);
-        }
+        }*/
 
         private void buttonCheckAll_Click(object sender, EventArgs e)
         {
@@ -162,5 +164,25 @@ namespace SerialDeviceWidget
             RefreshEnumeration();
         }
 
+        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                Hide();
+            }
+        }
+
+        private void notifyIconMain_Click(object sender, EventArgs e)
+        {
+            if (this.Visible)
+            {
+                Hide();
+            }
+            else
+            { 
+                Show(); 
+            }            
+        }
     }    
 }
