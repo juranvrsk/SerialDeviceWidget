@@ -17,6 +17,7 @@ namespace SerialDeviceWidget
         public Model model;
         public BindingList<string> bindingList;
         private bool itemsChecked;
+        private List<object> unCheckedItems;
         public FormMain(Model model)
         {
             this.model = model;
@@ -28,6 +29,7 @@ namespace SerialDeviceWidget
             model.SerialListUpdated += ModelSerialDeviceListUpdated;
             labelRefresh.Text += model.GetRefreshString();
             timerRefresh.Start();
+            unCheckedItems = new List<object>();
 
             EnumarateCOMPortsWMI();            
             UpdateToolStripMenu();
@@ -60,6 +62,8 @@ namespace SerialDeviceWidget
         private void UpdateToolStripMenu()
         {
             ClearToolStripMenu();
+            SetUncheckedItems(unCheckedItems);
+            //SetUncheckedItems(GetUnCheckedItems());
             int portCounter = 1;
             foreach (string item in checkedListBoxSerialDevices.CheckedItems)
             {
@@ -99,10 +103,31 @@ namespace SerialDeviceWidget
 
         private void RefreshEnumeration()
         {
+            unCheckedItems = GetUnCheckedItems();
             bindingList.Clear();
             EnumarateCOMPortsWMI();
-            UpdateToolStripMenu();
+            UpdateToolStripMenu();           
+        }
 
+        private List<object> GetUnCheckedItems()
+        {
+            List<object> result = new List<object>();
+            foreach(object item in checkedListBoxSerialDevices.Items)
+            {                
+                if(!checkedListBoxSerialDevices.GetItemChecked(checkedListBoxSerialDevices.Items.IndexOf(item)))
+                {
+                    result.Add(item);
+                }
+            }
+            return result;
+        }
+
+        private void SetUncheckedItems(List<object> uncheckedList)
+        {
+            foreach (object item in uncheckedList)
+            {
+                checkedListBoxSerialDevices.SetItemChecked(checkedListBoxSerialDevices.Items.IndexOf(item), false);
+            }
         }
 
         private void EnumarateCOMPortsWMI()
@@ -126,14 +151,6 @@ namespace SerialDeviceWidget
             }
             itemsChecked = CheckAll();
         }
-
-
-
-        /*protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            notifyIconMain.Visible = false;
-            base.OnFormClosing(e);
-        }*/
 
         private void buttonCheckAll_Click(object sender, EventArgs e)
         {
