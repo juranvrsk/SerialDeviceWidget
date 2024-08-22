@@ -28,183 +28,189 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            this.buttonCheckAll = new System.Windows.Forms.Button();
-            this.buttonRefresh = new System.Windows.Forms.Button();
-            this.buttonApply = new System.Windows.Forms.Button();
-            this.notifyIconMain = new System.Windows.Forms.NotifyIcon(this.components);
-            this.contextMenuStripMain = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItemRefresh = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.timerRefresh = new System.Windows.Forms.Timer(this.components);
-            this.labelRefreshMin = new System.Windows.Forms.Label();
-            this.trackBarRefreshRate = new System.Windows.Forms.TrackBar();
-            this.labelRefreshMax = new System.Windows.Forms.Label();
-            this.labelRefresh = new System.Windows.Forms.Label();
-            this.checkedListBoxSerialDevices = new System.Windows.Forms.CheckedListBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.contextMenuStripMain.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarRefreshRate)).BeginInit();
-            this.SuspendLayout();
+            buttonCheckAll = new System.Windows.Forms.Button();
+            buttonRefresh = new System.Windows.Forms.Button();
+            buttonApply = new System.Windows.Forms.Button();
+            notifyIconMain = new System.Windows.Forms.NotifyIcon(components);
+            contextMenuStripMain = new System.Windows.Forms.ContextMenuStrip(components);
+            toolStripMenuItemRefresh = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
+            timerRefresh = new System.Windows.Forms.Timer(components);
+            labelRefreshMin = new System.Windows.Forms.Label();
+            trackBarRefreshRate = new System.Windows.Forms.TrackBar();
+            labelRefreshMax = new System.Windows.Forms.Label();
+            labelRefresh = new System.Windows.Forms.Label();
+            checkedListBoxSerialDevices = new System.Windows.Forms.CheckedListBox();
+            label1 = new System.Windows.Forms.Label();
+            backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            contextMenuStripMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)trackBarRefreshRate).BeginInit();
+            SuspendLayout();
             // 
             // buttonCheckAll
             // 
-            this.buttonCheckAll.Location = new System.Drawing.Point(12, 415);
-            this.buttonCheckAll.Name = "buttonCheckAll";
-            this.buttonCheckAll.Size = new System.Drawing.Size(80, 22);
-            this.buttonCheckAll.TabIndex = 1;
-            this.buttonCheckAll.Text = "All";
-            this.buttonCheckAll.UseVisualStyleBackColor = true;
-            this.buttonCheckAll.Click += new System.EventHandler(this.buttonCheckAll_Click);
+            buttonCheckAll.Location = new System.Drawing.Point(14, 479);
+            buttonCheckAll.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonCheckAll.Name = "buttonCheckAll";
+            buttonCheckAll.Size = new System.Drawing.Size(93, 25);
+            buttonCheckAll.TabIndex = 1;
+            buttonCheckAll.Text = "All";
+            buttonCheckAll.UseVisualStyleBackColor = true;
+            buttonCheckAll.Click += buttonCheckAll_Click;
             // 
             // buttonRefresh
             // 
-            this.buttonRefresh.Location = new System.Drawing.Point(122, 415);
-            this.buttonRefresh.Name = "buttonRefresh";
-            this.buttonRefresh.Size = new System.Drawing.Size(80, 22);
-            this.buttonRefresh.TabIndex = 3;
-            this.buttonRefresh.Text = "Refresh now";
-            this.buttonRefresh.UseVisualStyleBackColor = true;
-            this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
+            buttonRefresh.Location = new System.Drawing.Point(142, 479);
+            buttonRefresh.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonRefresh.Name = "buttonRefresh";
+            buttonRefresh.Size = new System.Drawing.Size(93, 25);
+            buttonRefresh.TabIndex = 3;
+            buttonRefresh.Text = "Refresh now";
+            buttonRefresh.UseVisualStyleBackColor = true;
+            buttonRefresh.Click += buttonRefresh_Click;
             // 
             // buttonApply
             // 
-            this.buttonApply.Location = new System.Drawing.Point(232, 415);
-            this.buttonApply.Name = "buttonApply";
-            this.buttonApply.Size = new System.Drawing.Size(80, 22);
-            this.buttonApply.TabIndex = 4;
-            this.buttonApply.Text = "Hide";
-            this.buttonApply.UseVisualStyleBackColor = true;
-            this.buttonApply.Click += new System.EventHandler(this.buttonApply_Click);
+            buttonApply.Location = new System.Drawing.Point(271, 479);
+            buttonApply.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonApply.Name = "buttonApply";
+            buttonApply.Size = new System.Drawing.Size(93, 25);
+            buttonApply.TabIndex = 4;
+            buttonApply.Text = "Hide";
+            buttonApply.UseVisualStyleBackColor = true;
+            buttonApply.Click += buttonApply_Click;
             // 
             // notifyIconMain
             // 
-            this.notifyIconMain.ContextMenuStrip = this.contextMenuStripMain;
-            this.notifyIconMain.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIconMain.Icon")));
-            this.notifyIconMain.Text = "SerialDeviceWidget";
-            this.notifyIconMain.Visible = true;
-            this.notifyIconMain.DoubleClick += new System.EventHandler(this.notifyIconMain_Click);
+            notifyIconMain.ContextMenuStrip = contextMenuStripMain;
+            notifyIconMain.Icon = (System.Drawing.Icon)resources.GetObject("notifyIconMain.Icon");
+            notifyIconMain.Text = "SerialDeviceWidget";
+            notifyIconMain.Visible = true;
+            notifyIconMain.DoubleClick += notifyIconMain_Click;
             // 
             // contextMenuStripMain
             // 
-            this.contextMenuStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemRefresh,
-            this.toolStripSeparator2,
-            this.toolStripSeparator1,
-            this.toolStripMenuItemExit});
-            this.contextMenuStripMain.Name = "contextMenuStrip1";
-            this.contextMenuStripMain.Size = new System.Drawing.Size(114, 60);
+            contextMenuStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripMenuItemRefresh, toolStripSeparator2, toolStripSeparator1, toolStripMenuItemExit });
+            contextMenuStripMain.Name = "contextMenuStrip1";
+            contextMenuStripMain.Size = new System.Drawing.Size(114, 60);
             // 
             // toolStripMenuItemRefresh
             // 
-            this.toolStripMenuItemRefresh.Name = "toolStripMenuItemRefresh";
-            this.toolStripMenuItemRefresh.Size = new System.Drawing.Size(113, 22);
-            this.toolStripMenuItemRefresh.Text = "Refresh";
-            this.toolStripMenuItemRefresh.Click += new System.EventHandler(this.toolStripMenuItemRefresh_Click);
+            toolStripMenuItemRefresh.Name = "toolStripMenuItemRefresh";
+            toolStripMenuItemRefresh.Size = new System.Drawing.Size(113, 22);
+            toolStripMenuItemRefresh.Text = "Refresh";
+            toolStripMenuItemRefresh.Click += toolStripMenuItemRefresh_Click;
             // 
             // toolStripSeparator2
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(110, 6);
+            toolStripSeparator2.Name = "toolStripSeparator2";
+            toolStripSeparator2.Size = new System.Drawing.Size(110, 6);
             // 
             // toolStripSeparator1
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(110, 6);
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new System.Drawing.Size(110, 6);
             // 
             // toolStripMenuItemExit
             // 
-            this.toolStripMenuItemExit.Name = "toolStripMenuItemExit";
-            this.toolStripMenuItemExit.Size = new System.Drawing.Size(113, 22);
-            this.toolStripMenuItemExit.Text = "Exit";
-            this.toolStripMenuItemExit.Click += new System.EventHandler(this.toolStripMenuItemExit_Click);
+            toolStripMenuItemExit.Name = "toolStripMenuItemExit";
+            toolStripMenuItemExit.Size = new System.Drawing.Size(113, 22);
+            toolStripMenuItemExit.Text = "Exit";
+            toolStripMenuItemExit.Click += toolStripMenuItemExit_Click;
             // 
             // timerRefresh
             // 
-            this.timerRefresh.Interval = 60000;
-            this.timerRefresh.Tick += new System.EventHandler(this.timerRefresh_Tick);
+            timerRefresh.Interval = 60000;
+            timerRefresh.Tick += timerRefresh_Tick;
             // 
             // labelRefreshMin
             // 
-            this.labelRefreshMin.AutoSize = true;
-            this.labelRefreshMin.Location = new System.Drawing.Point(15, 448);
-            this.labelRefreshMin.Name = "labelRefreshMin";
-            this.labelRefreshMin.Size = new System.Drawing.Size(21, 13);
-            this.labelRefreshMin.TabIndex = 6;
-            this.labelRefreshMin.Text = "1 s";
+            labelRefreshMin.AutoSize = true;
+            labelRefreshMin.Location = new System.Drawing.Point(18, 517);
+            labelRefreshMin.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelRefreshMin.Name = "labelRefreshMin";
+            labelRefreshMin.Size = new System.Drawing.Size(21, 15);
+            labelRefreshMin.TabIndex = 6;
+            labelRefreshMin.Text = "1 s";
             // 
             // trackBarRefreshRate
             // 
-            this.trackBarRefreshRate.Location = new System.Drawing.Point(18, 464);
-            this.trackBarRefreshRate.Minimum = 1;
-            this.trackBarRefreshRate.Name = "trackBarRefreshRate";
-            this.trackBarRefreshRate.Size = new System.Drawing.Size(291, 45);
-            this.trackBarRefreshRate.TabIndex = 7;
-            this.trackBarRefreshRate.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
-            this.trackBarRefreshRate.Value = 10;
-            this.trackBarRefreshRate.ValueChanged += new System.EventHandler(this.trackBarRefreshRate_ValueChanged);
+            trackBarRefreshRate.Location = new System.Drawing.Point(21, 535);
+            trackBarRefreshRate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            trackBarRefreshRate.Minimum = 1;
+            trackBarRefreshRate.Name = "trackBarRefreshRate";
+            trackBarRefreshRate.Size = new System.Drawing.Size(340, 45);
+            trackBarRefreshRate.TabIndex = 7;
+            trackBarRefreshRate.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
+            trackBarRefreshRate.Value = 10;
+            trackBarRefreshRate.ValueChanged += trackBarRefreshRate_ValueChanged;
             // 
             // labelRefreshMax
             // 
-            this.labelRefreshMax.AutoSize = true;
-            this.labelRefreshMax.Location = new System.Drawing.Point(271, 448);
-            this.labelRefreshMax.Name = "labelRefreshMax";
-            this.labelRefreshMax.Size = new System.Drawing.Size(38, 13);
-            this.labelRefreshMax.TabIndex = 8;
-            this.labelRefreshMax.Text = "30 min";
+            labelRefreshMax.AutoSize = true;
+            labelRefreshMax.Location = new System.Drawing.Point(316, 517);
+            labelRefreshMax.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelRefreshMax.Name = "labelRefreshMax";
+            labelRefreshMax.Size = new System.Drawing.Size(43, 15);
+            labelRefreshMax.TabIndex = 8;
+            labelRefreshMax.Text = "30 min";
             // 
             // labelRefresh
             // 
-            this.labelRefresh.AutoSize = true;
-            this.labelRefresh.Location = new System.Drawing.Point(93, 448);
-            this.labelRefresh.Name = "labelRefresh";
-            this.labelRefresh.Size = new System.Drawing.Size(71, 13);
-            this.labelRefresh.TabIndex = 9;
-            this.labelRefresh.Text = "Refresh rate: ";
+            labelRefresh.AutoSize = true;
+            labelRefresh.Location = new System.Drawing.Point(108, 517);
+            labelRefresh.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelRefresh.Name = "labelRefresh";
+            labelRefresh.Size = new System.Drawing.Size(75, 15);
+            labelRefresh.TabIndex = 9;
+            labelRefresh.Text = "Refresh rate: ";
             // 
             // checkedListBoxSerialDevices
             // 
-            this.checkedListBoxSerialDevices.FormattingEnabled = true;
-            this.checkedListBoxSerialDevices.Location = new System.Drawing.Point(12, 30);
-            this.checkedListBoxSerialDevices.Name = "checkedListBoxSerialDevices";
-            this.checkedListBoxSerialDevices.Size = new System.Drawing.Size(300, 379);
-            this.checkedListBoxSerialDevices.TabIndex = 10;
+            checkedListBoxSerialDevices.FormattingEnabled = true;
+            checkedListBoxSerialDevices.Location = new System.Drawing.Point(14, 35);
+            checkedListBoxSerialDevices.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            checkedListBoxSerialDevices.Name = "checkedListBoxSerialDevices";
+            checkedListBoxSerialDevices.Size = new System.Drawing.Size(349, 436);
+            checkedListBoxSerialDevices.TabIndex = 10;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(128, 13);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(88, 13);
-            this.label1.TabIndex = 11;
-            this.label1.Text = "Serial devices list";
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(149, 15);
+            label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(95, 15);
+            label1.TabIndex = 11;
+            label1.Text = "Serial devices list";
             // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(324, 521);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.checkedListBoxSerialDevices);
-            this.Controls.Add(this.labelRefresh);
-            this.Controls.Add(this.labelRefreshMax);
-            this.Controls.Add(this.trackBarRefreshRate);
-            this.Controls.Add(this.labelRefreshMin);
-            this.Controls.Add(this.buttonApply);
-            this.Controls.Add(this.buttonRefresh);
-            this.Controls.Add(this.buttonCheckAll);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "FormMain";
-            this.Text = "SerialDevices";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
-            this.contextMenuStripMain.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarRefreshRate)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(378, 601);
+            Controls.Add(label1);
+            Controls.Add(checkedListBoxSerialDevices);
+            Controls.Add(labelRefresh);
+            Controls.Add(labelRefreshMax);
+            Controls.Add(trackBarRefreshRate);
+            Controls.Add(labelRefreshMin);
+            Controls.Add(buttonApply);
+            Controls.Add(buttonRefresh);
+            Controls.Add(buttonCheckAll);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Name = "FormMain";
+            Text = "SerialDevices";
+            FormClosing += FormMain_FormClosing;
+            contextMenuStripMain.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)trackBarRefreshRate).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -224,6 +230,7 @@
         private System.Windows.Forms.Label labelRefresh;
         private System.Windows.Forms.CheckedListBox checkedListBoxSerialDevices;
         private System.Windows.Forms.Label label1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 
