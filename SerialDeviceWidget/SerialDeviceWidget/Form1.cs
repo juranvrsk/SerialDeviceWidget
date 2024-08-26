@@ -9,6 +9,12 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Management;
 using Microsoft.Toolkit.Uwp.Notifications;
+using System.Threading;
+//using Windows.Devices.SerialCommunication;
+//using Windows.Devices.Enumeration;
+//using Windows.Storage.Streams;
+//using System.IO.Ports;
+
 
 namespace SerialDeviceWidget
 {
@@ -19,6 +25,7 @@ namespace SerialDeviceWidget
         public BindingList<string> bindingList;
         private bool itemsChecked;
         private List<object> unCheckedItems;
+        private ManagementEventWatcher mWatcher;
         public FormMain(Model model)
         {
             this.model = model;
@@ -31,9 +38,9 @@ namespace SerialDeviceWidget
             labelRefresh.Text += model.GetRefreshString();
             timerRefresh.Start();
             unCheckedItems = new List<object>();
-
             EnumarateCOMPortsWMI();            
             UpdateToolStripMenu();
+            InsertUSBHandler();
 
         }
 
@@ -106,10 +113,10 @@ namespace SerialDeviceWidget
         {
             unCheckedItems = GetUnCheckedItems();
             bindingList.Clear();
-            EnumarateCOMPortsWMI();
+            EnumarateCOMPortsWMI();            
             UpdateToolStripMenu();           
         }
-
+        
         private List<object> GetUnCheckedItems()
         {
             List<object> result = new List<object>();
@@ -202,5 +209,37 @@ namespace SerialDeviceWidget
                 Show(); 
             }            
         }
+
+        private void InsertUSBHandler()
+        {
+            WqlEventQuery eventQuery;
+            ManagementScope scope = new ManagementScope("root\\CIMV2");
+            scope.Options.EnablePrivileges = true;
+            try
+            {
+                eventQuery = new WqlEventQuery();
+                eventQuery.EventClassName = "__InstanceCreationEvent";
+                eventQuery.WithinInterval = new TimeSpan(0, 0, 1);//Set up seconds from the settings or enter the new variable
+                eventQuery.Condition = "TargetInstance ISA 'Win32_PnPEntity'";
+                mWatcher = new ManagementEventWatcher(scope, eventQuery);
+                mWatcher.EventArrived += new EventArrivedEventHandler(USBInserted);
+                mWatcher.Start();
+            }
+            catch (Exception ex) 
+            {
+                Console.WriteLine(ex.Message);
+                if(mWatcher != null)
+                {
+                    mWatcher.Stop();
+                }
+            }
+        }
+
+        private void USBInserted(object sender, EventArrivedEventArgs e)
+        {
+            ManagementBaseObject baseObject = (ManagementBaseObject)e.NewEvent["TargetInstance"];
+            RefreshEnumeration();
+        }
+
     }    
 }
