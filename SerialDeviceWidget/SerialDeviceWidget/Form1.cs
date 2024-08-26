@@ -41,6 +41,7 @@ namespace SerialDeviceWidget
             EnumarateCOMPortsWMI();            
             UpdateToolStripMenu();
             InsertUSBHandler();
+            RemoveUSBHandler();
 
         }
 
@@ -240,6 +241,38 @@ namespace SerialDeviceWidget
             ManagementBaseObject baseObject = (ManagementBaseObject)e.NewEvent["TargetInstance"];
             RefreshEnumeration();
         }
+
+        private void RemoveUSBHandler()
+        {
+            WqlEventQuery eventQuery;
+            ManagementScope scope = new ManagementScope("root\\CIMV2");
+            scope.Options.EnablePrivileges = true;
+            try
+            {
+                eventQuery = new WqlEventQuery();
+                eventQuery.EventClassName = "__InstanceDeletionEvent";
+                eventQuery.WithinInterval = new TimeSpan(0, 0, 1);//Set up seconds from the settings or enter the new variable
+                eventQuery.Condition = "TargetInstance ISA 'Win32_PnPEntity'";
+                mWatcher = new ManagementEventWatcher(scope, eventQuery);
+                mWatcher.EventArrived += new EventArrivedEventHandler(USBRemoved);
+                mWatcher.Start();
+            }
+            catch (Exception ex) 
+            {
+                Console.WriteLine(ex.Message);
+                if(mWatcher != null)
+                {
+                    mWatcher.Stop();
+                }
+            }            
+        }
+
+        private void USBRemoved(object sender, EventArrivedEventArgs e)
+        {
+            ManagementBaseObject baseObject = (ManagementBaseObject)e.NewEvent["TargetInstance"];
+            RefreshEnumeration();
+        }
+
 
     }    
 }
