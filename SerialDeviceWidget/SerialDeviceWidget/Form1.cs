@@ -239,6 +239,7 @@ namespace SerialDeviceWidget
         private void USBInserted(object sender, EventArrivedEventArgs e)
         {
             ManagementBaseObject baseObject = (ManagementBaseObject)e.NewEvent["TargetInstance"];
+            LaunchToastNotification("New serial device added", baseObject["Caption"].ToString());
             RefreshEnumeration();
         }
 
