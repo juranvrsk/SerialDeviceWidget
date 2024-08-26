@@ -23,7 +23,7 @@ namespace SerialDeviceWidget
     {
         public List<String> PortNames;//The list for port names store
         public Model model;
-        public BindingList<string> bindingList;
+        public BindingList<SerialDevice> bindingList;
         private bool itemsChecked;
         private List<object> unCheckedItems;
         private ManagementEventWatcher mWatcher;
@@ -31,7 +31,7 @@ namespace SerialDeviceWidget
         {
             this.model = model;
             InitializeComponent();
-            this.bindingList = new BindingList<string>(model.GetSerialDevices());
+            this.bindingList = new BindingList<SerialDevice>(model.GetSerialDevices());
             model.RefreshRate = trackBarRefreshRate.Value;
             checkedListBoxSerialDevices.DataSource = bindingList;
             checkedListBoxSerialDevices.DisplayMember = "Serial Device";
@@ -118,19 +118,19 @@ namespace SerialDeviceWidget
             UpdateToolStripMenu();           
         }
 
-        private void AddDevice(string deviceCaption)
+        private void AddDevice(string deviceName)
         {
             unCheckedItems = GetUnCheckedItems();
             bindingList.Clear();
-            model.AddSerialDevice(deviceCaption);
+            model.AddSerialDevice(deviceName);
             UpdateToolStripMenu();
         }
 
-        private void RemoveDevice(string deviceCaption) 
+        private void RemoveDevice(string deviceName) 
         {
             unCheckedItems = GetUnCheckedItems();
             bindingList.Clear();
-            model.RemoveSerialDevice(deviceCaption);
+            model.RemoveSerialDevice(deviceName);
             UpdateToolStripMenu();
         }
 
@@ -255,9 +255,9 @@ namespace SerialDeviceWidget
         private void USBInserted(object sender, EventArrivedEventArgs e)
         {
             ManagementBaseObject baseObject = (ManagementBaseObject)e.NewEvent["TargetInstance"];//Getting the data from query
-            string deviceCaption = baseObject["Caption"].ToString();
+            string deviceName = baseObject["Caption"].ToString();
             LaunchToastNotification("New serial device added", deviceCaption);
-            AddDevice(deviceCaption);
+            AddDevice(deviceName);
             //RefreshEnumeration();
         }
 
@@ -289,8 +289,8 @@ namespace SerialDeviceWidget
         private void USBRemoved(object sender, EventArrivedEventArgs e)
         {
             ManagementBaseObject baseObject = (ManagementBaseObject)e.NewEvent["TargetInstance"];
-            string deviceCaption = baseObject["Caption"].ToString();
-            RemoveDevice(deviceCaption);
+            string deviceName = baseObject["Caption"].ToString();
+            RemoveDevice(deviceName);
             //RefreshEnumeration();
         }
 

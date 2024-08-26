@@ -10,7 +10,7 @@ namespace SerialDeviceWidget
     {
         public event EventHandler SerialListUpdated;
         public event EventHandler RefreshRateUpdated;
-        private List<string> serialList = new List<string>();
+        private List<SerialDevice> serialList = new List<SerialDevice>();
         public int RefreshRate { get; set; }
 
         public string RefreshPeriod 
@@ -30,18 +30,18 @@ namespace SerialDeviceWidget
 
         private List<string> portNames = new List<string>();
 
-        public List<string> GetSerialDevices()
+        public List<SerialDevice> GetSerialDevices()
         {
             return serialList;
         }
 
-        public void AddSerialDevice(string device)
+        public void AddSerialDevice(SerialDevice device)
         {
             serialList.Add(device);
             SerialListUpdated?.Invoke(this, EventArgs.Empty);
         }
         
-        public void RemoveSerialDevice(string device)
+        public void RemoveSerialDevice(SerialDevice device)
         {
             serialList.Remove(device);
             SerialListUpdated?.Invoke(this, EventArgs.Empty);
