@@ -273,6 +273,13 @@ namespace SerialDeviceWidget
             RefreshEnumeration();
         }
 
+        private void LaunchToastNotification(string tilte, string description)
+        {
+            new ToastContentBuilder()
+                .AddText(tilte)
+                .AddText(description)
+                .Show();
+        }
 
     }    
 }
