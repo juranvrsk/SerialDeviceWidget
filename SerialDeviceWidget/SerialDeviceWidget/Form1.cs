@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Management;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System.Threading;
+using System.Reflection;
 //using Windows.Devices.SerialCommunication;
 //using Windows.Devices.Enumeration;
 //using Windows.Storage.Streams;
@@ -42,7 +43,6 @@ namespace SerialDeviceWidget
             UpdateToolStripMenu();
             InsertUSBHandler();
             RemoveUSBHandler();
-
         }
 
         private void ModelSerialDeviceListUpdated(object sender, EventArgs e)
@@ -117,7 +117,23 @@ namespace SerialDeviceWidget
             EnumarateCOMPortsWMI();            
             UpdateToolStripMenu();           
         }
-        
+
+        private void AddDevice(string deviceCaption)
+        {
+            unCheckedItems = GetUnCheckedItems();
+            bindingList.Clear();
+            model.AddSerialDevice(deviceCaption);
+            UpdateToolStripMenu();
+        }
+
+        private void RemoveDevice(string deviceCaption) 
+        {
+            unCheckedItems = GetUnCheckedItems();
+            bindingList.Clear();
+            model.RemoveSerialDevice(deviceCaption);
+            UpdateToolStripMenu();
+        }
+
         private List<object> GetUnCheckedItems()
         {
             List<object> result = new List<object>();
@@ -238,9 +254,11 @@ namespace SerialDeviceWidget
 
         private void USBInserted(object sender, EventArrivedEventArgs e)
         {
-            ManagementBaseObject baseObject = (ManagementBaseObject)e.NewEvent["TargetInstance"];
-            LaunchToastNotification("New serial device added", baseObject["Caption"].ToString());
-            RefreshEnumeration();
+            ManagementBaseObject baseObject = (ManagementBaseObject)e.NewEvent["TargetInstance"];//Getting the data from query
+            string deviceCaption = baseObject["Caption"].ToString();
+            LaunchToastNotification("New serial device added", deviceCaption);
+            AddDevice(deviceCaption);
+            //RefreshEnumeration();
         }
 
         private void RemoveUSBHandler()
@@ -271,7 +289,9 @@ namespace SerialDeviceWidget
         private void USBRemoved(object sender, EventArrivedEventArgs e)
         {
             ManagementBaseObject baseObject = (ManagementBaseObject)e.NewEvent["TargetInstance"];
-            RefreshEnumeration();
+            string deviceCaption = baseObject["Caption"].ToString();
+            RemoveDevice(deviceCaption);
+            //RefreshEnumeration();
         }
 
         private void LaunchToastNotification(string tilte, string description)
