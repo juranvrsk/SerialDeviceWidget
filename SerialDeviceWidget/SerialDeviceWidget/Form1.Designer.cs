@@ -31,7 +31,6 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             buttonCheckAll = new System.Windows.Forms.Button();
-            buttonRefresh = new System.Windows.Forms.Button();
             buttonApply = new System.Windows.Forms.Button();
             notifyIconMain = new System.Windows.Forms.NotifyIcon(components);
             contextMenuStripMain = new System.Windows.Forms.ContextMenuStrip(components);
@@ -55,17 +54,6 @@
             buttonCheckAll.Text = "All";
             buttonCheckAll.UseVisualStyleBackColor = true;
             buttonCheckAll.Click += buttonCheckAll_Click;
-            // 
-            // buttonRefresh
-            // 
-            buttonRefresh.Location = new System.Drawing.Point(142, 479);
-            buttonRefresh.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            buttonRefresh.Name = "buttonRefresh";
-            buttonRefresh.Size = new System.Drawing.Size(93, 25);
-            buttonRefresh.TabIndex = 3;
-            buttonRefresh.Text = "Refresh now";
-            buttonRefresh.UseVisualStyleBackColor = true;
-            buttonRefresh.Click += buttonRefresh_Click;
             // 
             // buttonApply
             // 
@@ -164,7 +152,6 @@
             Controls.Add(trackBarRefreshRate);
             Controls.Add(labelRefreshMin);
             Controls.Add(buttonApply);
-            Controls.Add(buttonRefresh);
             Controls.Add(buttonCheckAll);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -178,7 +165,6 @@
 
         #endregion
         private System.Windows.Forms.Button buttonCheckAll;
-        private System.Windows.Forms.Button buttonRefresh;
         private System.Windows.Forms.Button buttonApply;
         private System.Windows.Forms.NotifyIcon notifyIconMain;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripMain;

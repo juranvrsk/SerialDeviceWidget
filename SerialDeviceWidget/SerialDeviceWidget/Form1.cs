@@ -11,41 +11,28 @@ using System.Management;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System.Threading;
 using System.Reflection;
-//using Windows.Devices.SerialCommunication;
-//using Windows.Devices.Enumeration;
-//using Windows.Storage.Streams;
-//using System.IO.Ports;
 
 
 namespace SerialDeviceWidget
 {
     public partial class FormMain : Form
     {
-        public List<String> PortNames;//The list for port names store
         public Model model;
         public BindingList<SerialDevice> bindingList;
         private bool itemsChecked;
-        private List<object> unCheckedItems;
         private ManagementEventWatcher mWatcher;
-        private ToolStripMenuItem toolStripMenuItemRefresh;
         private ToolStripMenuItem toolStripMenuItemExit;
-        private ToolStripSeparator toolStripSeparatorTop;
         private ToolStripSeparator ToolStripSeparatorBottom;
+        private const string USBGuidString = "{4d36e978-e325-11ce-bfc1-08002be10318}";
 
         public FormMain(Model model)
         {
             this.model = model;
             InitializeComponent();
-            toolStripMenuItemRefresh = new ToolStripMenuItem();
-            toolStripMenuItemRefresh.Text = "Refresh";
-            toolStripMenuItemRefresh.Size = new System.Drawing.Size(180, 22);
-            toolStripMenuItemRefresh.Click += new System.EventHandler(toolStripMenuItemRefresh_Click);
             toolStripMenuItemExit = new ToolStripMenuItem();
             toolStripMenuItemExit.Text = "Exit";
             toolStripMenuItemExit.Size = new System.Drawing.Size(180, 22);
             toolStripMenuItemExit.Click += new System.EventHandler(toolStripMenuItemExit_Click);
-            toolStripSeparatorTop = new ToolStripSeparator();
-            toolStripSeparatorTop.Size = new System.Drawing.Size(177, 6);
             ToolStripSeparatorBottom = new ToolStripSeparator();
             ToolStripSeparatorBottom.Size = new System.Drawing.Size(177, 6);
             
@@ -55,15 +42,10 @@ namespace SerialDeviceWidget
             checkedListBoxSerialDevices.DisplayMember = "Name";            
             model.SerialListUpdated += ModelSerialDeviceListUpdated;
             labelRefresh.Text += model.GetRefreshString();
-            unCheckedItems = new List<object>();
-            contextMenuStripMain.Items.Add(toolStripMenuItemRefresh);
-            contextMenuStripMain.Items.Add(toolStripSeparatorTop);
             EnumarateCOMPortsWMI();            
             UpdateToolStripMenu();
             InsertUSBHandler();
-            RemoveUSBHandler();
-            contextMenuStripMain.Items.Add(ToolStripSeparatorBottom);
-            contextMenuStripMain.Items.Add(toolStripMenuItemExit);            
+            RemoveUSBHandler();            
         }
 
         private void ModelSerialDeviceListUpdated(object sender, EventArgs e)
@@ -107,7 +89,6 @@ namespace SerialDeviceWidget
 
         private void UpdateToolStripMenu()
         {
-            //ClearToolStripMenu();
             if (this.InvokeRequired)
             {
                 this.Invoke(new System.Windows.Forms.MethodInvoker(UpdateToolStripMenu));
@@ -115,8 +96,6 @@ namespace SerialDeviceWidget
             }
             contextMenuStripMain.Items.Clear();
             SetCheckUncheckItems();
-            contextMenuStripMain.Items.Add(toolStripMenuItemRefresh);
-            contextMenuStripMain.Items.Add(toolStripSeparatorTop);
             foreach (SerialDevice device in checkedListBoxSerialDevices.CheckedItems)
             {
                 contextMenuStripMain.Items.Add(device.Name);
@@ -129,31 +108,11 @@ namespace SerialDeviceWidget
         private void toolStripMenuItemExit_Click(object sender, EventArgs e)
         {            
             notifyIconMain.Visible = false;
-            //base.OnFormClosing(e);
             Application.Exit();
         }
 
-        private void toolStripMenuItemRefresh_Click(object sender, EventArgs e)
-        {
-            RefreshEnumeration();
-        }
-
-        private void buttonRefresh_Click(object sender, EventArgs e)
-        {
-            //RefreshEnumeration();
-            RemoveDevice("Silicon Labs CP210x USB to UART Bridge (COM6)");
-        }
-
-        private void RefreshEnumeration()
-        {            
-            //bindingList.Clear();
-            EnumarateCOMPortsWMI();            
-            UpdateToolStripMenu();           
-        }
-
         private void AddDevice(string deviceName)
-        {            
-            //bindingList.Clear();            
+        {                      
             SerialDevice device = new SerialDevice(deviceName, false);
             model.AddSerialDevice(device);
             UpdateToolStripMenu();
@@ -161,7 +120,6 @@ namespace SerialDeviceWidget
 
         private void RemoveDevice(string deviceName) 
         {            
-            //bindingList.Clear();
             SerialDevice device = new SerialDevice(deviceName, false);
             model.RemoveSerialDevice(device);
             UpdateToolStripMenu();
@@ -212,11 +170,6 @@ namespace SerialDeviceWidget
             labelRefresh.Text = $"Refresh rate: {model.GetRefreshString()}";
         }
 
-        private void timerRefresh_Tick(object sender, EventArgs e)
-        {
-            RefreshEnumeration();
-        }
-
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)
@@ -265,8 +218,7 @@ namespace SerialDeviceWidget
 
         private void USBInserted(object sender, EventArrivedEventArgs e)
         {
-            ManagementBaseObject baseObject = (ManagementBaseObject)e.NewEvent["TargetInstance"];//Getting the data from query
-            //if(new Guid((string)baseObject["ClassGuid"])==GUID_DEVCLASS_USB            
+            ManagementBaseObject baseObject = (ManagementBaseObject)e.NewEvent["TargetInstance"];//Getting the data from query         
             if ((string)baseObject["ClassGuid"] == "{4d36e978-e325-11ce-bfc1-08002be10318}")
             {
                 string deviceName = baseObject["Caption"].ToString();
