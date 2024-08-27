@@ -141,6 +141,8 @@
             dataGridViewSerialDevices.Name = "dataGridViewSerialDevices";
             dataGridViewSerialDevices.Size = new System.Drawing.Size(354, 440);
             dataGridViewSerialDevices.TabIndex = 12;
+            dataGridViewSerialDevices.CellValueChanged += dataGridViewSerialDevicesCell_ValueChanged;
+            dataGridViewSerialDevices.CurrentCellDirtyStateChanged += dataGridViewSerialDevices_CurrentCellDirtyStateChanged;
             // 
             // formMainBindingSource
             // 

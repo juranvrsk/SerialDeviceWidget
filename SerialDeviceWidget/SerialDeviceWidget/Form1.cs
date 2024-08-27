@@ -35,7 +35,7 @@ namespace SerialDeviceWidget
             toolStripMenuItemExit.Click += new System.EventHandler(toolStripMenuItemExit_Click);
             ToolStripSeparatorBottom = new ToolStripSeparator();
             ToolStripSeparatorBottom.Size = new System.Drawing.Size(177, 6);
-            
+
             this.bindingList = new BindingList<SerialDevice>(model.GetSerialDevices());
             model.RefreshRate = trackBarRefreshRate.Value;
             //checkedListBoxSerialDevices.DataSource = bindingList;
@@ -45,17 +45,17 @@ namespace SerialDeviceWidget
             dataGridViewSerialDevices.AllowUserToDeleteRows = false;
             model.SerialListUpdated += ModelSerialDeviceListUpdated;
             labelRefresh.Text += model.GetRefreshString();
-            EnumarateCOMPortsWMI();            
+            EnumarateCOMPortsWMI();
             UpdateToolStripMenu();
             InsertUSBHandler();
-            RemoveUSBHandler();            
+            RemoveUSBHandler();
         }
 
         private void ModelSerialDeviceListUpdated(object sender, EventArgs e)
         {
             if (this.InvokeRequired)
             {
-                this.Invoke(new System.Windows.Forms.MethodInvoker(()=> bindingList.ResetBindings()));
+                this.Invoke(new System.Windows.Forms.MethodInvoker(() => bindingList.ResetBindings()));
                 return;
             }
             bindingList.ResetBindings();
@@ -64,10 +64,6 @@ namespace SerialDeviceWidget
 
         private bool CheckAll()
         {
-            /*for(int i = 0; i < checkedListBoxSerialDevices.Items.Count; i++)
-            {
-                checkedListBoxSerialDevices.SetItemChecked(i, true);
-            }*/
             foreach (DataGridViewRow item in dataGridViewSerialDevices.Rows)
             {
                 item.Cells["Hidden"].Value = true;
@@ -81,23 +77,10 @@ namespace SerialDeviceWidget
             {
                 item.Cells["Hidden"].Value = false;
             }
-            /*for (int i = 0; i < checkedListBoxSerialDevices.Items.Count; i++)
-            {
-                checkedListBoxSerialDevices.SetItemChecked(i, false);
-            }*/
             return false;
         }
 
-        /*private void SetCheckUncheckItems()
-        {
-            for (int i = 0; i < checkedListBoxSerialDevices.Items.Count; i++)
-            {
-                if (checkedListBoxSerialDevices.Items[i] is SerialDevice device)
-                {
-                    checkedListBoxSerialDevices.SetItemChecked(i, !device.Hidden);
-                }
-            }
-        }*/
+
 
         private void UpdateToolStripMenu()
         {
@@ -107,47 +90,29 @@ namespace SerialDeviceWidget
                 return;
             }
             contextMenuStripMain.Items.Clear();
-            //SetCheckUncheckItems();
-            /*foreach (SerialDevice device in checkedListBoxSerialDevices.CheckedItems)
-            {
-                contextMenuStripMain.Items.Add(device.Name);
-            }*/
-
-            /*var list = dataGridViewSerialDevices.Rows.Cast<DataGridViewRow>()
-                .SelectMany( row => row.Cells.Cast<DataGridViewCell>())
-                .Where( x => x.va)
-                .ToList();*/
-            //dataGridViewSerialDevices.DataSource is List<SerialDevice> devices;
-
-            /*var list = bindingList.Select(d =>
-            {
-                d.Hidden = true;
-                return d;
-            }).ToList();
-            bindingList = new BindingList<SerialDevice>(list);*/
-            string[] notHidden = bindingList.Where(x => x.Hidden==false).Select(y => y.Name).ToArray();
-            ToolStripItem[] toolStripItems = notHidden.Select(x => new ToolStripMenuItem(x) as ToolStripItem).ToArray();            
+            string[] notHidden = bindingList.Where(x => x.Hidden == false).Select(y => y.Name).ToArray();
+            ToolStripItem[] toolStripItems = notHidden.Select(x => new ToolStripMenuItem(x) as ToolStripItem).ToArray();
             contextMenuStripMain.Items.AddRange(toolStripItems);
             contextMenuStripMain.Items.Add(ToolStripSeparatorBottom);
             contextMenuStripMain.Items.Add(toolStripMenuItemExit);
-            
+
         }
 
         private void toolStripMenuItemExit_Click(object sender, EventArgs e)
-        {            
+        {
             notifyIconMain.Visible = false;
             Application.Exit();
         }
 
         private void AddDevice(string deviceName)
-        {                      
+        {
             SerialDevice device = new SerialDevice(deviceName, false);
             model.AddSerialDevice(device);
             UpdateToolStripMenu();
         }
 
-        private void RemoveDevice(string deviceName) 
-        {            
+        private void RemoveDevice(string deviceName)
+        {
             SerialDevice device = new SerialDevice(deviceName, false);
             model.RemoveSerialDevice(device);
             UpdateToolStripMenu();
@@ -177,7 +142,7 @@ namespace SerialDeviceWidget
 
         private void buttonCheckAll_Click(object sender, EventArgs e)
         {
-            if(itemsChecked)
+            if (itemsChecked)
             {
                 itemsChecked = UnCheckAll();
             }
@@ -190,13 +155,6 @@ namespace SerialDeviceWidget
 
         private void buttonApply_Click(object sender, EventArgs e)
         {
-            /*for (int i = 0; i < checkedListBoxSerialDevices.Items.Count; i++)
-            {
-                if (checkedListBoxSerialDevices.Items[i] is SerialDevice device)
-                {
-                    checkedListBoxSerialDevices.SetItemChecked(i, !device.Hidden);
-                }
-            }*/
             UpdateToolStripMenu();
         }
 
@@ -222,9 +180,9 @@ namespace SerialDeviceWidget
                 Hide();
             }
             else
-            { 
-                Show(); 
-            }            
+            {
+                Show();
+            }
         }
 
         private void InsertUSBHandler()
@@ -242,10 +200,10 @@ namespace SerialDeviceWidget
                 mWatcher.EventArrived += new EventArrivedEventHandler(USBInserted);
                 mWatcher.Start();
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                if(mWatcher != null)
+                if (mWatcher != null)
                 {
                     mWatcher.Stop();
                 }
@@ -260,7 +218,7 @@ namespace SerialDeviceWidget
                 string deviceName = baseObject["Caption"].ToString();
                 LaunchToastNotification("New serial device added", deviceName);
                 AddDevice(deviceName);
-            }            
+            }
         }
 
         private void RemoveUSBHandler()
@@ -278,14 +236,14 @@ namespace SerialDeviceWidget
                 mWatcher.EventArrived += new EventArrivedEventHandler(USBRemoved);
                 mWatcher.Start();
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                if(mWatcher != null)
+                if (mWatcher != null)
                 {
                     mWatcher.Stop();
                 }
-            }            
+            }
         }
 
         private void USBRemoved(object sender, EventArrivedEventArgs e)
@@ -306,5 +264,26 @@ namespace SerialDeviceWidget
                 .Show();
         }
 
-    }    
+        /*
+         * For immediate apllying the check/uncheck
+         */
+        private void dataGridViewSerialDevices_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (dataGridViewSerialDevices.IsCurrentCellDirty) 
+            {
+                dataGridViewSerialDevices.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+        }
+
+        /*
+         * Applaying the hide/unhide from check/uncheck
+         */
+        private void dataGridViewSerialDevicesCell_ValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == dataGridViewSerialDevices.Columns["Hidden"].Index && e.RowIndex >= 0)
+            {
+                UpdateToolStripMenu();
+            }
+        }
+    }
 }
