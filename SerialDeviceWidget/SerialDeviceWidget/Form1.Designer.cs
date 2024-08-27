@@ -38,10 +38,13 @@
             trackBarRefreshRate = new System.Windows.Forms.TrackBar();
             labelRefreshMax = new System.Windows.Forms.Label();
             labelRefresh = new System.Windows.Forms.Label();
-            checkedListBoxSerialDevices = new System.Windows.Forms.CheckedListBox();
             label1 = new System.Windows.Forms.Label();
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            dataGridViewSerialDevices = new System.Windows.Forms.DataGridView();
+            formMainBindingSource = new System.Windows.Forms.BindingSource(components);
             ((System.ComponentModel.ISupportInitialize)trackBarRefreshRate).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewSerialDevices).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)formMainBindingSource).BeginInit();
             SuspendLayout();
             // 
             // buttonCheckAll
@@ -121,15 +124,6 @@
             labelRefresh.TabIndex = 9;
             labelRefresh.Text = "Refresh rate: ";
             // 
-            // checkedListBoxSerialDevices
-            // 
-            checkedListBoxSerialDevices.FormattingEnabled = true;
-            checkedListBoxSerialDevices.Location = new System.Drawing.Point(14, 35);
-            checkedListBoxSerialDevices.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            checkedListBoxSerialDevices.Name = "checkedListBoxSerialDevices";
-            checkedListBoxSerialDevices.Size = new System.Drawing.Size(349, 436);
-            checkedListBoxSerialDevices.TabIndex = 10;
-            // 
             // label1
             // 
             label1.AutoSize = true;
@@ -140,13 +134,25 @@
             label1.TabIndex = 11;
             label1.Text = "Serial devices list";
             // 
+            // dataGridViewSerialDevices
+            // 
+            dataGridViewSerialDevices.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewSerialDevices.Location = new System.Drawing.Point(12, 33);
+            dataGridViewSerialDevices.Name = "dataGridViewSerialDevices";
+            dataGridViewSerialDevices.Size = new System.Drawing.Size(354, 440);
+            dataGridViewSerialDevices.TabIndex = 12;
+            // 
+            // formMainBindingSource
+            // 
+            formMainBindingSource.DataSource = typeof(FormMain);
+            // 
             // FormMain
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(378, 601);
+            Controls.Add(dataGridViewSerialDevices);
             Controls.Add(label1);
-            Controls.Add(checkedListBoxSerialDevices);
             Controls.Add(labelRefresh);
             Controls.Add(labelRefreshMax);
             Controls.Add(trackBarRefreshRate);
@@ -159,6 +165,8 @@
             Text = "SerialDevices";
             FormClosing += FormMain_FormClosing;
             ((System.ComponentModel.ISupportInitialize)trackBarRefreshRate).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewSerialDevices).EndInit();
+            ((System.ComponentModel.ISupportInitialize)formMainBindingSource).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -172,9 +180,10 @@
         private System.Windows.Forms.TrackBar trackBarRefreshRate;
         private System.Windows.Forms.Label labelRefreshMax;
         private System.Windows.Forms.Label labelRefresh;
-        private System.Windows.Forms.CheckedListBox checkedListBoxSerialDevices;
         private System.Windows.Forms.Label label1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.DataGridView dataGridViewSerialDevices;
+        private System.Windows.Forms.BindingSource formMainBindingSource;
     }
 }
 

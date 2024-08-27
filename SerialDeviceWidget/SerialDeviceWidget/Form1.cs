@@ -38,8 +38,11 @@ namespace SerialDeviceWidget
             
             this.bindingList = new BindingList<SerialDevice>(model.GetSerialDevices());
             model.RefreshRate = trackBarRefreshRate.Value;
-            checkedListBoxSerialDevices.DataSource = bindingList;
-            checkedListBoxSerialDevices.DisplayMember = "Name";            
+            //checkedListBoxSerialDevices.DataSource = bindingList;
+            //checkedListBoxSerialDevices.DisplayMember = "Name";
+            dataGridViewSerialDevices.DataSource = bindingList;
+            dataGridViewSerialDevices.AllowUserToAddRows = false;
+            dataGridViewSerialDevices.AllowUserToDeleteRows = false;
             model.SerialListUpdated += ModelSerialDeviceListUpdated;
             labelRefresh.Text += model.GetRefreshString();
             EnumarateCOMPortsWMI();            
@@ -56,27 +59,36 @@ namespace SerialDeviceWidget
                 return;
             }
             bindingList.ResetBindings();
+            UpdateToolStripMenu();
         }
 
         private bool CheckAll()
-        {            
-            for(int i = 0; i < checkedListBoxSerialDevices.Items.Count; i++)
+        {
+            /*for(int i = 0; i < checkedListBoxSerialDevices.Items.Count; i++)
             {
                 checkedListBoxSerialDevices.SetItemChecked(i, true);
+            }*/
+            foreach (DataGridViewRow item in dataGridViewSerialDevices.Rows)
+            {
+                item.Cells["Hidden"].Value = true;
             }
             return true;
         }
 
         private bool UnCheckAll()
         {
-            for (int i = 0; i < checkedListBoxSerialDevices.Items.Count; i++)
+            foreach (DataGridViewRow item in dataGridViewSerialDevices.Rows)
+            {
+                item.Cells["Hidden"].Value = false;
+            }
+            /*for (int i = 0; i < checkedListBoxSerialDevices.Items.Count; i++)
             {
                 checkedListBoxSerialDevices.SetItemChecked(i, false);
-            }
+            }*/
             return false;
         }
 
-        private void SetCheckUncheckItems()
+        /*private void SetCheckUncheckItems()
         {
             for (int i = 0; i < checkedListBoxSerialDevices.Items.Count; i++)
             {
@@ -85,7 +97,7 @@ namespace SerialDeviceWidget
                     checkedListBoxSerialDevices.SetItemChecked(i, !device.Hidden);
                 }
             }
-        }
+        }*/
 
         private void UpdateToolStripMenu()
         {
@@ -95,11 +107,27 @@ namespace SerialDeviceWidget
                 return;
             }
             contextMenuStripMain.Items.Clear();
-            SetCheckUncheckItems();
-            foreach (SerialDevice device in checkedListBoxSerialDevices.CheckedItems)
+            //SetCheckUncheckItems();
+            /*foreach (SerialDevice device in checkedListBoxSerialDevices.CheckedItems)
             {
                 contextMenuStripMain.Items.Add(device.Name);
-            }
+            }*/
+
+            /*var list = dataGridViewSerialDevices.Rows.Cast<DataGridViewRow>()
+                .SelectMany( row => row.Cells.Cast<DataGridViewCell>())
+                .Where( x => x.va)
+                .ToList();*/
+            //dataGridViewSerialDevices.DataSource is List<SerialDevice> devices;
+
+            /*var list = bindingList.Select(d =>
+            {
+                d.Hidden = true;
+                return d;
+            }).ToList();
+            bindingList = new BindingList<SerialDevice>(list);*/
+            string[] notHidden = bindingList.Where(x => x.Hidden==false).Select(y => y.Name).ToArray();
+            ToolStripItem[] toolStripItems = notHidden.Select(x => new ToolStripMenuItem(x) as ToolStripItem).ToArray();            
+            contextMenuStripMain.Items.AddRange(toolStripItems);
             contextMenuStripMain.Items.Add(ToolStripSeparatorBottom);
             contextMenuStripMain.Items.Add(toolStripMenuItemExit);
             
@@ -144,7 +172,7 @@ namespace SerialDeviceWidget
                 var portMenuItem = new ToolStripMenuItem("An error occurred while querying for WMI data: " + e.Message);
                 contextMenuStripMain.Items.Add(portMenuItem);
             }
-            itemsChecked = CheckAll();
+            itemsChecked = UnCheckAll();
         }
 
         private void buttonCheckAll_Click(object sender, EventArgs e)
@@ -156,11 +184,19 @@ namespace SerialDeviceWidget
             else
             {
                 itemsChecked = CheckAll();
-            }            
+            }
+            UpdateToolStripMenu();
         }
 
         private void buttonApply_Click(object sender, EventArgs e)
         {
+            /*for (int i = 0; i < checkedListBoxSerialDevices.Items.Count; i++)
+            {
+                if (checkedListBoxSerialDevices.Items[i] is SerialDevice device)
+                {
+                    checkedListBoxSerialDevices.SetItemChecked(i, !device.Hidden);
+                }
+            }*/
             UpdateToolStripMenu();
         }
 
