@@ -43,6 +43,9 @@ namespace SerialDeviceWidget
             dataGridViewSerialDevices.DataSource = bindingList;
             dataGridViewSerialDevices.AllowUserToAddRows = false;
             dataGridViewSerialDevices.AllowUserToDeleteRows = false;
+            dataGridViewSerialDevices.RowHeadersVisible = false;
+            dataGridViewSerialDevices.Columns["Name"].Width = 300;
+            dataGridViewSerialDevices.Columns["Hidden"].Width = 50;
             model.SerialListUpdated += ModelSerialDeviceListUpdated;
             labelRefresh.Text += model.GetRefreshString();
             EnumarateCOMPortsWMI();
@@ -95,7 +98,6 @@ namespace SerialDeviceWidget
             contextMenuStripMain.Items.AddRange(toolStripItems);
             contextMenuStripMain.Items.Add(ToolStripSeparatorBottom);
             contextMenuStripMain.Items.Add(toolStripMenuItemExit);
-
         }
 
         private void toolStripMenuItemExit_Click(object sender, EventArgs e)
@@ -150,11 +152,6 @@ namespace SerialDeviceWidget
             {
                 itemsChecked = CheckAll();
             }
-            UpdateToolStripMenu();
-        }
-
-        private void buttonApply_Click(object sender, EventArgs e)
-        {
             UpdateToolStripMenu();
         }
 
@@ -213,6 +210,7 @@ namespace SerialDeviceWidget
         private void USBInserted(object sender, EventArrivedEventArgs e)
         {
             ManagementBaseObject baseObject = (ManagementBaseObject)e.NewEvent["TargetInstance"];//Getting the data from query         
+            //Ensure for the proper device adding
             if ((string)baseObject["ClassGuid"] == "{4d36e978-e325-11ce-bfc1-08002be10318}")
             {
                 string deviceName = baseObject["Caption"].ToString();
@@ -249,6 +247,7 @@ namespace SerialDeviceWidget
         private void USBRemoved(object sender, EventArrivedEventArgs e)
         {
             ManagementBaseObject baseObject = (ManagementBaseObject)e.NewEvent["TargetInstance"];
+            //Ensure for the proper device removing
             if ((string)baseObject["ClassGuid"] == "{4d36e978-e325-11ce-bfc1-08002be10318}")
             {
                 string deviceName = baseObject["Caption"].ToString();

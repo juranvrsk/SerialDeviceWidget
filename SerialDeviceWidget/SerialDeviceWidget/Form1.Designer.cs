@@ -31,7 +31,6 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             buttonCheckAll = new System.Windows.Forms.Button();
-            buttonApply = new System.Windows.Forms.Button();
             notifyIconMain = new System.Windows.Forms.NotifyIcon(components);
             contextMenuStripMain = new System.Windows.Forms.ContextMenuStrip(components);
             labelRefreshMin = new System.Windows.Forms.Label();
@@ -39,12 +38,9 @@
             labelRefreshMax = new System.Windows.Forms.Label();
             labelRefresh = new System.Windows.Forms.Label();
             label1 = new System.Windows.Forms.Label();
-            backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             dataGridViewSerialDevices = new System.Windows.Forms.DataGridView();
-            formMainBindingSource = new System.Windows.Forms.BindingSource(components);
             ((System.ComponentModel.ISupportInitialize)trackBarRefreshRate).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewSerialDevices).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)formMainBindingSource).BeginInit();
             SuspendLayout();
             // 
             // buttonCheckAll
@@ -57,17 +53,6 @@
             buttonCheckAll.Text = "All";
             buttonCheckAll.UseVisualStyleBackColor = true;
             buttonCheckAll.Click += buttonCheckAll_Click;
-            // 
-            // buttonApply
-            // 
-            buttonApply.Location = new System.Drawing.Point(271, 479);
-            buttonApply.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            buttonApply.Name = "buttonApply";
-            buttonApply.Size = new System.Drawing.Size(93, 25);
-            buttonApply.TabIndex = 4;
-            buttonApply.Text = "Hide";
-            buttonApply.UseVisualStyleBackColor = true;
-            buttonApply.Click += buttonApply_Click;
             // 
             // notifyIconMain
             // 
@@ -144,10 +129,6 @@
             dataGridViewSerialDevices.CellValueChanged += dataGridViewSerialDevicesCell_ValueChanged;
             dataGridViewSerialDevices.CurrentCellDirtyStateChanged += dataGridViewSerialDevices_CurrentCellDirtyStateChanged;
             // 
-            // formMainBindingSource
-            // 
-            formMainBindingSource.DataSource = typeof(FormMain);
-            // 
             // FormMain
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -159,7 +140,6 @@
             Controls.Add(labelRefreshMax);
             Controls.Add(trackBarRefreshRate);
             Controls.Add(labelRefreshMin);
-            Controls.Add(buttonApply);
             Controls.Add(buttonCheckAll);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -168,14 +148,12 @@
             FormClosing += FormMain_FormClosing;
             ((System.ComponentModel.ISupportInitialize)trackBarRefreshRate).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewSerialDevices).EndInit();
-            ((System.ComponentModel.ISupportInitialize)formMainBindingSource).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
         private System.Windows.Forms.Button buttonCheckAll;
-        private System.Windows.Forms.Button buttonApply;
         private System.Windows.Forms.NotifyIcon notifyIconMain;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripMain;
         private System.Windows.Forms.Label labelRefreshMin;
@@ -183,9 +161,7 @@
         private System.Windows.Forms.Label labelRefreshMax;
         private System.Windows.Forms.Label labelRefresh;
         private System.Windows.Forms.Label label1;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.DataGridView dataGridViewSerialDevices;
-        private System.Windows.Forms.BindingSource formMainBindingSource;
     }
 }
 
