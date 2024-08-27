@@ -1,16 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SerialDeviceWidget
 {
-    public class Model
+    public class Model:INotifyPropertyChanged
     {
         public event EventHandler SerialListUpdated;
         private List<SerialDevice> serialList = new List<SerialDevice>();
         public int RefreshRate { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnProertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public List<SerialDevice> GetSerialDevices()
         {
@@ -34,42 +43,6 @@ namespace SerialDeviceWidget
         {
             serialList.Clear();
             SerialListUpdated?.Invoke(this, EventArgs.Empty);
-        }
-
-        public int GetRefreshMillis()
-        {
-            switch (RefreshRate)
-            {
-                case 1:  return 1000;
-                case 2:  return 3 * 1000;
-                case 3:  return 5 * 1000;
-                case 4:  return 10 * 1000;
-                case 5:  return 30 * 1000;
-                case 6:  return 60 * 1000;
-                case 7:  return 3 * 60 * 1000;
-                case 8:  return 5 * 60 * 1000;
-                case 9:  return 10 * 60 * 1000;
-                case 10: return 30 * 60 * 1000;
-                default: return 30 * 60 * 1000;
-            }
-        }
-
-        public string GetRefreshString()
-        {
-            switch (RefreshRate)
-            {
-                case 1:  return "   1 s";
-                case 2:  return "   3 s";
-                case 3:  return "   5 s";
-                case 4:  return "  10 s";
-                case 5:  return "  30 s";
-                case 6:  return "1  min";
-                case 7:  return "3  min";
-                case 8:  return "5  min";
-                case 9:  return "10 min";
-                case 10: return "30 min";
-                default: return "30 min";
-            }
         }
     }
 }

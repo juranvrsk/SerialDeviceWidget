@@ -33,22 +33,20 @@
             buttonCheckAll = new System.Windows.Forms.Button();
             notifyIconMain = new System.Windows.Forms.NotifyIcon(components);
             contextMenuStripMain = new System.Windows.Forms.ContextMenuStrip(components);
-            labelRefreshMin = new System.Windows.Forms.Label();
-            trackBarRefreshRate = new System.Windows.Forms.TrackBar();
-            labelRefreshMax = new System.Windows.Forms.Label();
             labelRefresh = new System.Windows.Forms.Label();
             label1 = new System.Windows.Forms.Label();
             dataGridViewSerialDevices = new System.Windows.Forms.DataGridView();
-            ((System.ComponentModel.ISupportInitialize)trackBarRefreshRate).BeginInit();
+            numericUpDownRefreshRate = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)dataGridViewSerialDevices).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownRefreshRate).BeginInit();
             SuspendLayout();
             // 
             // buttonCheckAll
             // 
-            buttonCheckAll.Location = new System.Drawing.Point(14, 479);
+            buttonCheckAll.Location = new System.Drawing.Point(12, 477);
             buttonCheckAll.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             buttonCheckAll.Name = "buttonCheckAll";
-            buttonCheckAll.Size = new System.Drawing.Size(93, 25);
+            buttonCheckAll.Size = new System.Drawing.Size(120, 25);
             buttonCheckAll.TabIndex = 1;
             buttonCheckAll.Text = "All";
             buttonCheckAll.UseVisualStyleBackColor = true;
@@ -67,47 +65,15 @@
             contextMenuStripMain.Name = "contextMenuStrip1";
             contextMenuStripMain.Size = new System.Drawing.Size(61, 4);
             // 
-            // labelRefreshMin
-            // 
-            labelRefreshMin.AutoSize = true;
-            labelRefreshMin.Location = new System.Drawing.Point(18, 517);
-            labelRefreshMin.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            labelRefreshMin.Name = "labelRefreshMin";
-            labelRefreshMin.Size = new System.Drawing.Size(21, 15);
-            labelRefreshMin.TabIndex = 6;
-            labelRefreshMin.Text = "1 s";
-            // 
-            // trackBarRefreshRate
-            // 
-            trackBarRefreshRate.Location = new System.Drawing.Point(21, 535);
-            trackBarRefreshRate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            trackBarRefreshRate.Minimum = 1;
-            trackBarRefreshRate.Name = "trackBarRefreshRate";
-            trackBarRefreshRate.Size = new System.Drawing.Size(340, 45);
-            trackBarRefreshRate.TabIndex = 7;
-            trackBarRefreshRate.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
-            trackBarRefreshRate.Value = 10;
-            trackBarRefreshRate.ValueChanged += trackBarRefreshRate_ValueChanged;
-            // 
-            // labelRefreshMax
-            // 
-            labelRefreshMax.AutoSize = true;
-            labelRefreshMax.Location = new System.Drawing.Point(316, 517);
-            labelRefreshMax.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            labelRefreshMax.Name = "labelRefreshMax";
-            labelRefreshMax.Size = new System.Drawing.Size(43, 15);
-            labelRefreshMax.TabIndex = 8;
-            labelRefreshMax.Text = "30 min";
-            // 
             // labelRefresh
             // 
             labelRefresh.AutoSize = true;
-            labelRefresh.Location = new System.Drawing.Point(108, 517);
+            labelRefresh.Location = new System.Drawing.Point(142, 482);
             labelRefresh.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             labelRefresh.Name = "labelRefresh";
-            labelRefresh.Size = new System.Drawing.Size(75, 15);
+            labelRefresh.Size = new System.Drawing.Size(95, 15);
             labelRefresh.TabIndex = 9;
-            labelRefresh.Text = "Refresh rate: ";
+            labelRefresh.Text = "Refresh rate, sec:";
             // 
             // label1
             // 
@@ -129,25 +95,30 @@
             dataGridViewSerialDevices.CellValueChanged += dataGridViewSerialDevicesCell_ValueChanged;
             dataGridViewSerialDevices.CurrentCellDirtyStateChanged += dataGridViewSerialDevices_CurrentCellDirtyStateChanged;
             // 
+            // numericUpDownRefreshRate
+            // 
+            numericUpDownRefreshRate.Location = new System.Drawing.Point(246, 480);
+            numericUpDownRefreshRate.Name = "numericUpDownRefreshRate";
+            numericUpDownRefreshRate.Size = new System.Drawing.Size(120, 23);
+            numericUpDownRefreshRate.TabIndex = 13;
+            // 
             // FormMain
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(378, 601);
+            Controls.Add(numericUpDownRefreshRate);
             Controls.Add(dataGridViewSerialDevices);
             Controls.Add(label1);
             Controls.Add(labelRefresh);
-            Controls.Add(labelRefreshMax);
-            Controls.Add(trackBarRefreshRate);
-            Controls.Add(labelRefreshMin);
             Controls.Add(buttonCheckAll);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Name = "FormMain";
             Text = "SerialDevices";
             FormClosing += FormMain_FormClosing;
-            ((System.ComponentModel.ISupportInitialize)trackBarRefreshRate).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewSerialDevices).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownRefreshRate).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -156,12 +127,10 @@
         private System.Windows.Forms.Button buttonCheckAll;
         private System.Windows.Forms.NotifyIcon notifyIconMain;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripMain;
-        private System.Windows.Forms.Label labelRefreshMin;
-        private System.Windows.Forms.TrackBar trackBarRefreshRate;
-        private System.Windows.Forms.Label labelRefreshMax;
         private System.Windows.Forms.Label labelRefresh;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dataGridViewSerialDevices;
+        private System.Windows.Forms.NumericUpDown numericUpDownRefreshRate;
     }
 }
 

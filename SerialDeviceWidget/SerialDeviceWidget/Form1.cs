@@ -27,6 +27,7 @@ namespace SerialDeviceWidget
 
         public FormMain(Model model)
         {
+            model.RefreshRate = 1;
             this.model = model;
             InitializeComponent();
             toolStripMenuItemExit = new ToolStripMenuItem();
@@ -35,11 +36,8 @@ namespace SerialDeviceWidget
             toolStripMenuItemExit.Click += new System.EventHandler(toolStripMenuItemExit_Click);
             ToolStripSeparatorBottom = new ToolStripSeparator();
             ToolStripSeparatorBottom.Size = new System.Drawing.Size(177, 6);
-
             this.bindingList = new BindingList<SerialDevice>(model.GetSerialDevices());
-            model.RefreshRate = trackBarRefreshRate.Value;
-            //checkedListBoxSerialDevices.DataSource = bindingList;
-            //checkedListBoxSerialDevices.DisplayMember = "Name";
+            numericUpDownRefreshRate.DataBindings.Add("Value", model, "RefreshRate", false, DataSourceUpdateMode.OnPropertyChanged);
             dataGridViewSerialDevices.DataSource = bindingList;
             dataGridViewSerialDevices.AllowUserToAddRows = false;
             dataGridViewSerialDevices.AllowUserToDeleteRows = false;
@@ -47,7 +45,6 @@ namespace SerialDeviceWidget
             dataGridViewSerialDevices.Columns["Name"].Width = 300;
             dataGridViewSerialDevices.Columns["Hidden"].Width = 50;
             model.SerialListUpdated += ModelSerialDeviceListUpdated;
-            labelRefresh.Text += model.GetRefreshString();
             EnumarateCOMPortsWMI();
             UpdateToolStripMenu();
             InsertUSBHandler();
@@ -155,12 +152,6 @@ namespace SerialDeviceWidget
             UpdateToolStripMenu();
         }
 
-        private void trackBarRefreshRate_ValueChanged(object sender, EventArgs e)
-        {
-            model.RefreshRate = trackBarRefreshRate.Value;
-            labelRefresh.Text = $"Refresh rate: {model.GetRefreshString()}";
-        }
-
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)
@@ -191,7 +182,7 @@ namespace SerialDeviceWidget
             {
                 eventQuery = new WqlEventQuery();
                 eventQuery.EventClassName = "__InstanceCreationEvent";
-                eventQuery.WithinInterval = new TimeSpan(0, 0, 1);//Set up seconds from the settings or enter the new variable
+                eventQuery.WithinInterval = new TimeSpan(0, 0, model.RefreshRate);//Set up seconds from the settings or enter the new variable
                 eventQuery.Condition = "TargetInstance ISA 'Win32_PnPEntity'";
                 mWatcher = new ManagementEventWatcher(scope, eventQuery);
                 mWatcher.EventArrived += new EventArrivedEventHandler(USBInserted);
@@ -228,7 +219,7 @@ namespace SerialDeviceWidget
             {
                 eventQuery = new WqlEventQuery();
                 eventQuery.EventClassName = "__InstanceDeletionEvent";
-                eventQuery.WithinInterval = new TimeSpan(0, 0, 1);//Set up seconds from the settings or enter the new variable
+                eventQuery.WithinInterval = new TimeSpan(0, 0, model.RefreshRate);//Set up seconds from the settings or enter the new variable
                 eventQuery.Condition = "TargetInstance ISA 'Win32_PnPEntity'";
                 mWatcher = new ManagementEventWatcher(scope, eventQuery);
                 mWatcher.EventArrived += new EventArrivedEventHandler(USBRemoved);
@@ -268,7 +259,7 @@ namespace SerialDeviceWidget
          */
         private void dataGridViewSerialDevices_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
-            if (dataGridViewSerialDevices.IsCurrentCellDirty) 
+            if (dataGridViewSerialDevices.IsCurrentCellDirty)
             {
                 dataGridViewSerialDevices.CommitEdit(DataGridViewDataErrorContexts.Commit);
             }
