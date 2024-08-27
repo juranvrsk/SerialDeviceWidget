@@ -35,11 +35,6 @@
             buttonApply = new System.Windows.Forms.Button();
             notifyIconMain = new System.Windows.Forms.NotifyIcon(components);
             contextMenuStripMain = new System.Windows.Forms.ContextMenuStrip(components);
-            toolStripMenuItemRefresh = new System.Windows.Forms.ToolStripMenuItem();
-            toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
-            timerRefresh = new System.Windows.Forms.Timer(components);
             labelRefreshMin = new System.Windows.Forms.Label();
             trackBarRefreshRate = new System.Windows.Forms.TrackBar();
             labelRefreshMax = new System.Windows.Forms.Label();
@@ -47,7 +42,6 @@
             checkedListBoxSerialDevices = new System.Windows.Forms.CheckedListBox();
             label1 = new System.Windows.Forms.Label();
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            contextMenuStripMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trackBarRefreshRate).BeginInit();
             SuspendLayout();
             // 
@@ -94,38 +88,8 @@
             // 
             // contextMenuStripMain
             // 
-            contextMenuStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripMenuItemRefresh, toolStripSeparator2, toolStripSeparator1, toolStripMenuItemExit });
             contextMenuStripMain.Name = "contextMenuStrip1";
-            contextMenuStripMain.Size = new System.Drawing.Size(114, 60);
-            // 
-            // toolStripMenuItemRefresh
-            // 
-            toolStripMenuItemRefresh.Name = "toolStripMenuItemRefresh";
-            toolStripMenuItemRefresh.Size = new System.Drawing.Size(113, 22);
-            toolStripMenuItemRefresh.Text = "Refresh";
-            toolStripMenuItemRefresh.Click += toolStripMenuItemRefresh_Click;
-            // 
-            // toolStripSeparator2
-            // 
-            toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new System.Drawing.Size(110, 6);
-            // 
-            // toolStripSeparator1
-            // 
-            toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new System.Drawing.Size(110, 6);
-            // 
-            // toolStripMenuItemExit
-            // 
-            toolStripMenuItemExit.Name = "toolStripMenuItemExit";
-            toolStripMenuItemExit.Size = new System.Drawing.Size(113, 22);
-            toolStripMenuItemExit.Text = "Exit";
-            toolStripMenuItemExit.Click += toolStripMenuItemExit_Click;
-            // 
-            // timerRefresh
-            // 
-            timerRefresh.Interval = 60000;
-            timerRefresh.Tick += timerRefresh_Tick;
+            contextMenuStripMain.Size = new System.Drawing.Size(61, 4);
             // 
             // labelRefreshMin
             // 
@@ -207,7 +171,6 @@
             Name = "FormMain";
             Text = "SerialDevices";
             FormClosing += FormMain_FormClosing;
-            contextMenuStripMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)trackBarRefreshRate).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -219,11 +182,6 @@
         private System.Windows.Forms.Button buttonApply;
         private System.Windows.Forms.NotifyIcon notifyIconMain;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripMain;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemRefresh;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExit;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.Timer timerRefresh;
         private System.Windows.Forms.Label labelRefreshMin;
         private System.Windows.Forms.TrackBar trackBarRefreshRate;
         private System.Windows.Forms.Label labelRefreshMax;

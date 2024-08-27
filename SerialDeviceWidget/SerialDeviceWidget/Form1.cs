@@ -27,31 +27,57 @@ namespace SerialDeviceWidget
         private bool itemsChecked;
         private List<object> unCheckedItems;
         private ManagementEventWatcher mWatcher;
+        private ToolStripMenuItem toolStripMenuItemRefresh;
+        private ToolStripMenuItem toolStripMenuItemExit;
+        private ToolStripSeparator toolStripSeparatorTop;
+        private ToolStripSeparator ToolStripSeparatorBottom;
+
         public FormMain(Model model)
         {
             this.model = model;
             InitializeComponent();
+            toolStripMenuItemRefresh = new ToolStripMenuItem();
+            toolStripMenuItemRefresh.Text = "Refresh";
+            toolStripMenuItemRefresh.Size = new System.Drawing.Size(180, 22);
+            toolStripMenuItemRefresh.Click += new System.EventHandler(toolStripMenuItemRefresh_Click);
+            toolStripMenuItemExit = new ToolStripMenuItem();
+            toolStripMenuItemExit.Text = "Exit";
+            toolStripMenuItemExit.Size = new System.Drawing.Size(180, 22);
+            toolStripMenuItemExit.Click += new System.EventHandler(toolStripMenuItemExit_Click);
+            toolStripSeparatorTop = new ToolStripSeparator();
+            toolStripSeparatorTop.Size = new System.Drawing.Size(177, 6);
+            ToolStripSeparatorBottom = new ToolStripSeparator();
+            ToolStripSeparatorBottom.Size = new System.Drawing.Size(177, 6);
+            
             this.bindingList = new BindingList<SerialDevice>(model.GetSerialDevices());
             model.RefreshRate = trackBarRefreshRate.Value;
             checkedListBoxSerialDevices.DataSource = bindingList;
-            checkedListBoxSerialDevices.DisplayMember = "Serial Device";
+            checkedListBoxSerialDevices.DisplayMember = "Name";            
             model.SerialListUpdated += ModelSerialDeviceListUpdated;
             labelRefresh.Text += model.GetRefreshString();
-            timerRefresh.Start();
             unCheckedItems = new List<object>();
+            contextMenuStripMain.Items.Add(toolStripMenuItemRefresh);
+            contextMenuStripMain.Items.Add(toolStripSeparatorTop);
             EnumarateCOMPortsWMI();            
             UpdateToolStripMenu();
             InsertUSBHandler();
             RemoveUSBHandler();
+            contextMenuStripMain.Items.Add(ToolStripSeparatorBottom);
+            contextMenuStripMain.Items.Add(toolStripMenuItemExit);            
         }
 
         private void ModelSerialDeviceListUpdated(object sender, EventArgs e)
         {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new System.Windows.Forms.MethodInvoker(()=> bindingList.ResetBindings()));
+                return;
+            }
             bindingList.ResetBindings();
         }
 
         private bool CheckAll()
-        {
+        {            
             for(int i = 0; i < checkedListBoxSerialDevices.Items.Count; i++)
             {
                 checkedListBoxSerialDevices.SetItemChecked(i, true);
@@ -68,33 +94,40 @@ namespace SerialDeviceWidget
             return false;
         }
 
-        private void UpdateToolStripMenu()
+        private void SetCheckUncheckItems()
         {
-            ClearToolStripMenu();
-            SetUncheckedItems(unCheckedItems);
-            //SetUncheckedItems(GetUnCheckedItems());
-            int portCounter = 1;
-            foreach (string item in checkedListBoxSerialDevices.CheckedItems)
+            for (int i = 0; i < checkedListBoxSerialDevices.Items.Count; i++)
             {
-                portCounter++;
-                var portMenuItem = new ToolStripMenuItem(item);                
-                portMenuItem.Name = model.AddPortName(portCounter);
-                contextMenuStripMain.Items.Insert(portCounter, portMenuItem);
+                if (checkedListBoxSerialDevices.Items[i] is SerialDevice device)
+                {
+                    checkedListBoxSerialDevices.SetItemChecked(i, !device.Hidden);
+                }
             }
         }
 
-        private void ClearToolStripMenu()
+        private void UpdateToolStripMenu()
         {
-            foreach(string name in model.GetPortNames())
+            //ClearToolStripMenu();
+            if (this.InvokeRequired)
             {
-                contextMenuStripMain.Items.RemoveByKey(name);
+                this.Invoke(new System.Windows.Forms.MethodInvoker(UpdateToolStripMenu));
+                return;
             }
-            model.ClearPortNames();
+            contextMenuStripMain.Items.Clear();
+            SetCheckUncheckItems();
+            contextMenuStripMain.Items.Add(toolStripMenuItemRefresh);
+            contextMenuStripMain.Items.Add(toolStripSeparatorTop);
+            foreach (SerialDevice device in checkedListBoxSerialDevices.CheckedItems)
+            {
+                contextMenuStripMain.Items.Add(device.Name);
+            }
+            contextMenuStripMain.Items.Add(ToolStripSeparatorBottom);
+            contextMenuStripMain.Items.Add(toolStripMenuItemExit);
+            
         }
 
         private void toolStripMenuItemExit_Click(object sender, EventArgs e)
         {            
-            timerRefresh.Stop();
             notifyIconMain.Visible = false;
             //base.OnFormClosing(e);
             Application.Exit();
@@ -107,52 +140,31 @@ namespace SerialDeviceWidget
 
         private void buttonRefresh_Click(object sender, EventArgs e)
         {
-            RefreshEnumeration();
+            //RefreshEnumeration();
+            RemoveDevice("Silicon Labs CP210x USB to UART Bridge (COM6)");
         }
 
         private void RefreshEnumeration()
-        {
-            unCheckedItems = GetUnCheckedItems();
-            bindingList.Clear();
+        {            
+            //bindingList.Clear();
             EnumarateCOMPortsWMI();            
             UpdateToolStripMenu();           
         }
 
         private void AddDevice(string deviceName)
-        {
-            unCheckedItems = GetUnCheckedItems();
-            bindingList.Clear();
-            model.AddSerialDevice(deviceName);
+        {            
+            //bindingList.Clear();            
+            SerialDevice device = new SerialDevice(deviceName, false);
+            model.AddSerialDevice(device);
             UpdateToolStripMenu();
         }
 
         private void RemoveDevice(string deviceName) 
-        {
-            unCheckedItems = GetUnCheckedItems();
-            bindingList.Clear();
-            model.RemoveSerialDevice(deviceName);
+        {            
+            //bindingList.Clear();
+            SerialDevice device = new SerialDevice(deviceName, false);
+            model.RemoveSerialDevice(device);
             UpdateToolStripMenu();
-        }
-
-        private List<object> GetUnCheckedItems()
-        {
-            List<object> result = new List<object>();
-            foreach(object item in checkedListBoxSerialDevices.Items)
-            {                
-                if(!checkedListBoxSerialDevices.GetItemChecked(checkedListBoxSerialDevices.Items.IndexOf(item)))
-                {
-                    result.Add(item);
-                }
-            }
-            return result;
-        }
-
-        private void SetUncheckedItems(List<object> uncheckedList)
-        {
-            foreach (object item in uncheckedList)
-            {
-                checkedListBoxSerialDevices.SetItemChecked(checkedListBoxSerialDevices.Items.IndexOf(item), false);
-            }
         }
 
         private void EnumarateCOMPortsWMI()
@@ -165,8 +177,8 @@ namespace SerialDeviceWidget
 
                 foreach (ManagementObject queryObj in searcher.Get())//Took all port names from query result
                 {
-                    string res = String.Format("{0}", queryObj["Caption"]);
-                    model.AddSerialDevice(res);
+                    SerialDevice device = new SerialDevice(queryObj["Caption"].ToString(), false);
+                    model.AddSerialDevice(device);
                 }
             }
             catch (ManagementException e) //In case of error output error message to devices list
@@ -198,7 +210,6 @@ namespace SerialDeviceWidget
         {
             model.RefreshRate = trackBarRefreshRate.Value;
             labelRefresh.Text = $"Refresh rate: {model.GetRefreshString()}";
-            timerRefresh.Interval = model.GetRefreshMillis();
         }
 
         private void timerRefresh_Tick(object sender, EventArgs e)
@@ -255,10 +266,13 @@ namespace SerialDeviceWidget
         private void USBInserted(object sender, EventArrivedEventArgs e)
         {
             ManagementBaseObject baseObject = (ManagementBaseObject)e.NewEvent["TargetInstance"];//Getting the data from query
-            string deviceName = baseObject["Caption"].ToString();
-            LaunchToastNotification("New serial device added", deviceCaption);
-            AddDevice(deviceName);
-            //RefreshEnumeration();
+            //if(new Guid((string)baseObject["ClassGuid"])==GUID_DEVCLASS_USB            
+            if ((string)baseObject["ClassGuid"] == "{4d36e978-e325-11ce-bfc1-08002be10318}")
+            {
+                string deviceName = baseObject["Caption"].ToString();
+                LaunchToastNotification("New serial device added", deviceName);
+                AddDevice(deviceName);
+            }            
         }
 
         private void RemoveUSBHandler()
@@ -289,9 +303,11 @@ namespace SerialDeviceWidget
         private void USBRemoved(object sender, EventArrivedEventArgs e)
         {
             ManagementBaseObject baseObject = (ManagementBaseObject)e.NewEvent["TargetInstance"];
-            string deviceName = baseObject["Caption"].ToString();
-            RemoveDevice(deviceName);
-            //RefreshEnumeration();
+            if ((string)baseObject["ClassGuid"] == "{4d36e978-e325-11ce-bfc1-08002be10318}")
+            {
+                string deviceName = baseObject["Caption"].ToString();
+                RemoveDevice(deviceName);
+            }
         }
 
         private void LaunchToastNotification(string tilte, string description)

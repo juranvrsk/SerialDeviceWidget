@@ -9,26 +9,8 @@ namespace SerialDeviceWidget
     public class Model
     {
         public event EventHandler SerialListUpdated;
-        public event EventHandler RefreshRateUpdated;
         private List<SerialDevice> serialList = new List<SerialDevice>();
         public int RefreshRate { get; set; }
-
-        public string RefreshPeriod 
-        { 
-            get
-            {
-                return GetRefreshString();
-            }
-        }
-        public int RefreshMillis
-        { 
-            get
-            {
-                return GetRefreshMillis();
-            }
-        }
-
-        private List<string> portNames = new List<string>();
 
         public List<SerialDevice> GetSerialDevices()
         {
@@ -43,7 +25,8 @@ namespace SerialDeviceWidget
         
         public void RemoveSerialDevice(SerialDevice device)
         {
-            serialList.Remove(device);
+            SerialDevice deviceToRemove = serialList.First(dev => dev.Name == device.Name);
+            serialList.Remove(deviceToRemove);
             SerialListUpdated?.Invoke(this, EventArgs.Empty);
         }
 
@@ -51,23 +34,6 @@ namespace SerialDeviceWidget
         {
             serialList.Clear();
             SerialListUpdated?.Invoke(this, EventArgs.Empty);
-        }
-
-        public string AddPortName(int portNumber)
-        {
-            string name = string.Format("Port {0}", portNumber);
-            portNames.Add(name);
-            return name;
-        }
-
-        public void ClearPortNames()
-        {
-            portNames.Clear();
-        }
-
-        public List<string> GetPortNames()
-        {
-            return portNames;
         }
 
         public int GetRefreshMillis()

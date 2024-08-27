@@ -8,21 +8,12 @@ namespace SerialDeviceWidget
 {
     public class SerialDevice
     {
-        public bool mHidden;
         public SerialDevice(string deviceName, bool hidden) 
         { 
             Name = deviceName;
-            mHidden = hidden;
+            Hidden = hidden;
         }
         public string Name { get; private set; }
-        public void Hide()
-        {
-            mHidden = true;
-        }
-        public void Show() 
-        {
-            mHidden = false;
-        }
-
+        public bool Hidden { get; set; }        
     }
 }
