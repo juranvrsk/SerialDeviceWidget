@@ -39,9 +39,6 @@ namespace SerialDeviceWidget
             this.bindingList = new BindingList<SerialDevice>(model.GetSerialDevices());
             numericUpDownRefreshRate.DataBindings.Add("Value", model, "RefreshRate", false, DataSourceUpdateMode.OnPropertyChanged);
             dataGridViewSerialDevices.DataSource = bindingList;
-            dataGridViewSerialDevices.AllowUserToAddRows = false;
-            dataGridViewSerialDevices.AllowUserToDeleteRows = false;
-            dataGridViewSerialDevices.RowHeadersVisible = false;
             dataGridViewSerialDevices.Columns["Name"].Width = 300;
             dataGridViewSerialDevices.Columns["Hidden"].Width = 50;
             model.SerialListUpdated += ModelSerialDeviceListUpdated;

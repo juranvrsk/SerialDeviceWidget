@@ -87,9 +87,15 @@
             // 
             // dataGridViewSerialDevices
             // 
+            dataGridViewSerialDevices.AllowUserToAddRows = false;
+            dataGridViewSerialDevices.AllowUserToDeleteRows = false;
+            dataGridViewSerialDevices.AllowUserToOrderColumns = true;
+            dataGridViewSerialDevices.AllowUserToResizeColumns = false;
+            dataGridViewSerialDevices.AllowUserToResizeRows = false;
             dataGridViewSerialDevices.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewSerialDevices.Location = new System.Drawing.Point(12, 33);
             dataGridViewSerialDevices.Name = "dataGridViewSerialDevices";
+            dataGridViewSerialDevices.RowHeadersVisible = false;
             dataGridViewSerialDevices.Size = new System.Drawing.Size(354, 520);
             dataGridViewSerialDevices.TabIndex = 12;
             dataGridViewSerialDevices.CellValueChanged += dataGridViewSerialDevicesCell_ValueChanged;
