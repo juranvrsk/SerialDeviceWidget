@@ -275,5 +275,13 @@ namespace SerialDeviceWidget
                 UpdateToolStripMenu();
             }
         }
+
+        private void dataGridViewSerialDevices_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if(e.ColumnIndex == dataGridViewSerialDevices.Columns["Name"].Index) 
+            { 
+                //dataGridViewSerialDevices.Sort(new Comparer)
+            }
+        }
     }
 }
