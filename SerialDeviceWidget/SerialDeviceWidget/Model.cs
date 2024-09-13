@@ -44,5 +44,12 @@ namespace SerialDeviceWidget
             serialList.Clear();
             SerialListUpdated?.Invoke(this, EventArgs.Empty);
         }
+
+        public void SortSerialDevices()
+        {
+            //serialList.Sort();
+            serialList = (from sd in serialList orderby sd.Name descending select sd).ToList();
+            SerialListUpdated?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

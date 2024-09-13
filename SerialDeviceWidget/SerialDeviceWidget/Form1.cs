@@ -24,11 +24,13 @@ namespace SerialDeviceWidget
         private ToolStripMenuItem toolStripMenuItemExit;
         private ToolStripSeparator ToolStripSeparatorBottom;
         private const string USBGuidString = "{4d36e978-e325-11ce-bfc1-08002be10318}";
+        private BindingSource source;
 
         public FormMain(Model model)
         {
             model.RefreshRate = 1;
             this.model = model;
+            source = new BindingSource();
             InitializeComponent();
             toolStripMenuItemExit = new ToolStripMenuItem();
             toolStripMenuItemExit.Text = "Exit";
@@ -38,7 +40,8 @@ namespace SerialDeviceWidget
             ToolStripSeparatorBottom.Size = new System.Drawing.Size(177, 6);
             this.bindingList = new BindingList<SerialDevice>(model.GetSerialDevices());
             numericUpDownRefreshRate.DataBindings.Add("Value", model, "RefreshRate", false, DataSourceUpdateMode.OnPropertyChanged);
-            dataGridViewSerialDevices.DataSource = bindingList;
+            source.DataSource = this.bindingList;
+            dataGridViewSerialDevices.DataSource = source;
             dataGridViewSerialDevices.AllowUserToAddRows = false;
             dataGridViewSerialDevices.AllowUserToDeleteRows = false;
             dataGridViewSerialDevices.RowHeadersVisible = false;
@@ -279,8 +282,13 @@ namespace SerialDeviceWidget
         private void dataGridViewSerialDevices_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if(e.ColumnIndex == dataGridViewSerialDevices.Columns["Name"].Index) 
-            { 
-                //dataGridViewSerialDevices.Sort(new Comparer)
+            {
+                //ListSortDirection direction;
+                //direction = ListSortDe
+                //SortOrder.Descending
+                //dataGridViewSerialDevices.Sort(dataGridViewSerialDevices.Columns["Name"], ListSortDirection.Ascending);
+                //source.Sort = "Name DESC";
+                model.SortSerialDevices();
             }
         }
     }
