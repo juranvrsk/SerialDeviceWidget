@@ -13,6 +13,7 @@ namespace SerialDeviceWidget
         public event EventHandler SerialListUpdated;
         private List<SerialDevice> serialList = new List<SerialDevice>();
         public int RefreshRate { get; set; }
+        public List<SerialDevice> SerialList {  get { return serialList; } }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -21,14 +22,10 @@ namespace SerialDeviceWidget
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public List<SerialDevice> GetSerialDevices()
-        {
-            return serialList;
-        }
-
         public void AddSerialDevice(SerialDevice device)
         {
             serialList.Add(device);
+            //serialList = serialList.OrderBy(serial => serial.Port).ToList();
             SerialListUpdated?.Invoke(this, EventArgs.Empty);
         }
         
@@ -47,8 +44,12 @@ namespace SerialDeviceWidget
 
         public void SortSerialDevices()
         {
-            //serialList.Sort();
-            serialList = (from sd in serialList orderby sd.Name descending select sd).ToList();
+            List<SerialDevice> sortedList = serialList.OrderBy(serial => serial.Port).ToList();
+            serialList.Clear();
+            foreach (SerialDevice serial in sortedList) 
+            { 
+                serialList.Add(serial);
+            }        
             SerialListUpdated?.Invoke(this, EventArgs.Empty);
         }
     }

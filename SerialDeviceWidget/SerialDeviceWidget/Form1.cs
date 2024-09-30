@@ -24,13 +24,13 @@ namespace SerialDeviceWidget
         private ToolStripMenuItem toolStripMenuItemExit;
         private ToolStripSeparator ToolStripSeparatorBottom;
         private const string USBGuidString = "{4d36e978-e325-11ce-bfc1-08002be10318}";
-        private BindingSource source;
+        //private BindingSource source;
 
         public FormMain(Model model)
         {
             model.RefreshRate = 1;
             this.model = model;
-            source = new BindingSource();
+            //source = new BindingSource();
             InitializeComponent();
             toolStripMenuItemExit = new ToolStripMenuItem();
             toolStripMenuItemExit.Text = "Exit";
@@ -38,16 +38,20 @@ namespace SerialDeviceWidget
             toolStripMenuItemExit.Click += new System.EventHandler(toolStripMenuItemExit_Click);
             ToolStripSeparatorBottom = new ToolStripSeparator();
             ToolStripSeparatorBottom.Size = new System.Drawing.Size(177, 6);
-            this.bindingList = new BindingList<SerialDevice>(model.GetSerialDevices());
+            this.bindingList = new BindingList<SerialDevice>(model.SerialList);
             numericUpDownRefreshRate.DataBindings.Add("Value", model, "RefreshRate", false, DataSourceUpdateMode.OnPropertyChanged);
-            source.DataSource = this.bindingList;
-            dataGridViewSerialDevices.DataSource = source;
+            //source.DataSource = this.bindingList;
+            //dataGridViewSerialDevices.DataSource = source;
+            dataGridViewSerialDevices.DataSource = this.bindingList;
             dataGridViewSerialDevices.AllowUserToAddRows = false;
             dataGridViewSerialDevices.AllowUserToDeleteRows = false;
             dataGridViewSerialDevices.RowHeadersVisible = false;
             dataGridViewSerialDevices.Columns["Name"].Width = 300;
             dataGridViewSerialDevices.Columns["Hidden"].Width = 50;
+            dataGridViewSerialDevices.Columns["Port"].Visible = false;
+            dataGridViewSerialDevices.Columns["Port"].SortMode = DataGridViewColumnSortMode.Programmatic;
             model.SerialListUpdated += ModelSerialDeviceListUpdated;
+            //this.bindingList.ListChanged();
             EnumarateCOMPortsWMI();
             UpdateToolStripMenu();
             InsertUSBHandler();
@@ -286,9 +290,18 @@ namespace SerialDeviceWidget
                 //ListSortDirection direction;
                 //direction = ListSortDe
                 //SortOrder.Descending
-                //dataGridViewSerialDevices.Sort(dataGridViewSerialDevices.Columns["Name"], ListSortDirection.Ascending);
+                //dataGridViewSerialDevices.Sort(dataGridViewSerialDevices.Columns["Port"], ListSortDirection.Ascending);                
                 //source.Sort = "Name DESC";
+
+                //BindingList<SerialDevice> list = this.dataGridViewSerialDevices.DataSource as BindingList<SerialDevice>;
+                //list.OrderBy(serial => serial.Port);
+                //list.Order();
+
                 model.SortSerialDevices();
+                //ModelSerialDeviceListUpdated(sender,e);
+
+                //dataGridViewSerialDevices.DataSource = this.bindingList;
+                //dataGridViewSerialDevices.
             }
         }
     }

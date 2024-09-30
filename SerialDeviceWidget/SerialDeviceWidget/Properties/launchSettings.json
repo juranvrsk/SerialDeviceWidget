@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SerialDeviceWidget": {
+      "commandName": "Project",
+      "nativeDebugging": false
+    }
+  }
+}
