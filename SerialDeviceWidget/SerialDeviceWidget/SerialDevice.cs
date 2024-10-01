@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace SerialDeviceWidget
 {
@@ -13,11 +14,20 @@ namespace SerialDeviceWidget
         public SerialDevice(string deviceName, bool hidden) 
         { 
             Name = deviceName;
-            //Port = deviceName.Where(deviceName => deviceName.Contains("COM\d+"));
-            //A search of the "(COMXX)" substring between the last index of the "(" + "COM" and last index of the ")"
-            int fIndex = deviceName.LastIndexOf('(')+4;
-            int lIndex = deviceName.LastIndexOf(')');
-            Port = int.Parse(deviceName.Substring(fIndex, lIndex-fIndex));            
+
+            //A search of the "COMXX" pattern and extracting digits only.
+            //Done with a positive lookbehind assertion,"COM" sould be preceed the digits, but it excludes from match
+            Regex regex = new Regex(@"(?<=COM)\d+");
+            if (regex.IsMatch(Name)) 
+            { 
+                Port = int.Parse(regex.Match(Name).Value);
+            }
+            else
+            {
+                Port = 0;
+            }
+            MatchCollection matches = regex.Matches(Name);      
+            
             Hidden = hidden;
         }
         public string Name { get; private set; }
