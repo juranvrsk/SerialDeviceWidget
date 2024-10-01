@@ -43,7 +43,7 @@
             // 
             // buttonCheckAll
             // 
-            buttonCheckAll.Location = new System.Drawing.Point(12, 477);
+            buttonCheckAll.Location = new System.Drawing.Point(13, 559);
             buttonCheckAll.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             buttonCheckAll.Name = "buttonCheckAll";
             buttonCheckAll.Size = new System.Drawing.Size(120, 25);
@@ -68,7 +68,7 @@
             // labelRefresh
             // 
             labelRefresh.AutoSize = true;
-            labelRefresh.Location = new System.Drawing.Point(142, 482);
+            labelRefresh.Location = new System.Drawing.Point(143, 564);
             labelRefresh.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             labelRefresh.Name = "labelRefresh";
             labelRefresh.Size = new System.Drawing.Size(95, 15);
@@ -87,10 +87,16 @@
             // 
             // dataGridViewSerialDevices
             // 
+            dataGridViewSerialDevices.AllowUserToAddRows = false;
+            dataGridViewSerialDevices.AllowUserToDeleteRows = false;
+            dataGridViewSerialDevices.AllowUserToOrderColumns = true;
+            dataGridViewSerialDevices.AllowUserToResizeColumns = false;
+            dataGridViewSerialDevices.AllowUserToResizeRows = false;
             dataGridViewSerialDevices.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewSerialDevices.Location = new System.Drawing.Point(12, 33);
             dataGridViewSerialDevices.Name = "dataGridViewSerialDevices";
-            dataGridViewSerialDevices.Size = new System.Drawing.Size(354, 440);
+            dataGridViewSerialDevices.RowHeadersVisible = false;
+            dataGridViewSerialDevices.Size = new System.Drawing.Size(354, 520);
             dataGridViewSerialDevices.TabIndex = 12;
             dataGridViewSerialDevices.CellValueChanged += dataGridViewSerialDevicesCell_ValueChanged;
             dataGridViewSerialDevices.ColumnHeaderMouseClick += dataGridViewSerialDevices_ColumnHeaderMouseClick;
@@ -98,7 +104,7 @@
             // 
             // numericUpDownRefreshRate
             // 
-            numericUpDownRefreshRate.Location = new System.Drawing.Point(246, 480);
+            numericUpDownRefreshRate.Location = new System.Drawing.Point(247, 562);
             numericUpDownRefreshRate.Name = "numericUpDownRefreshRate";
             numericUpDownRefreshRate.Size = new System.Drawing.Size(120, 23);
             numericUpDownRefreshRate.TabIndex = 13;
