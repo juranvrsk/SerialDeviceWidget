@@ -42,9 +42,17 @@ namespace SerialDeviceWidget
             SerialListUpdated?.Invoke(this, EventArgs.Empty);
         }
 
-        public void SortSerialDevices()
-        {
-            List<SerialDevice> sortedList = serialList.OrderBy(serial => serial.Port).ToList();
+        public void SortSerialDevices(bool direction)
+        {            
+            List<SerialDevice> sortedList;
+            if (direction) 
+            {
+                sortedList = serialList.OrderBy(serial => serial.Port).ToList();
+            }
+            else
+            {
+                sortedList = serialList.OrderByDescending(serial => serial.Port).ToList();
+            }            
             serialList.Clear();
             foreach (SerialDevice serial in sortedList) 
             { 

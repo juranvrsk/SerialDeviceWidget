@@ -20,6 +20,7 @@ namespace SerialDeviceWidget
         public Model model;
         public BindingList<SerialDevice> bindingList;
         private bool itemsChecked;
+        private bool sortDirection;
         private ManagementEventWatcher mWatcher;
         private ToolStripMenuItem toolStripMenuItemExit;
         private ToolStripSeparator ToolStripSeparatorBottom;
@@ -29,6 +30,7 @@ namespace SerialDeviceWidget
         public FormMain(Model model)
         {
             model.RefreshRate = 1;
+            sortDirection = false; //Descending
             this.model = model;
             //source = new BindingSource();
             InitializeComponent();
@@ -285,23 +287,16 @@ namespace SerialDeviceWidget
 
         private void dataGridViewSerialDevices_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if(e.ColumnIndex == dataGridViewSerialDevices.Columns["Name"].Index) 
-            {
-                //ListSortDirection direction;
-                //direction = ListSortDe
-                //SortOrder.Descending
-                //dataGridViewSerialDevices.Sort(dataGridViewSerialDevices.Columns["Port"], ListSortDirection.Ascending);                
-                //source.Sort = "Name DESC";
-
-                //BindingList<SerialDevice> list = this.dataGridViewSerialDevices.DataSource as BindingList<SerialDevice>;
-                //list.OrderBy(serial => serial.Port);
-                //list.Order();
-
-                model.SortSerialDevices();
-                //ModelSerialDeviceListUpdated(sender,e);
-
-                //dataGridViewSerialDevices.DataSource = this.bindingList;
-                //dataGridViewSerialDevices.
+            /*Sorting are simple as possible
+             *Problems: the binded datagridview is impossible to sort using build-in automatic and programmatic sort
+             *The List<T> and BindingList<T> could be sorted and returns IOrderedEnumerable<T> which cant be 
+             *passed to List<T> or BindingList<T>, even using ToList<T>. Only one way is available now: clean List<T> and readd there elemnts
+             *from the IOrderedEnumerable<T>.
+             */
+            if (e.ColumnIndex == dataGridViewSerialDevices.Columns["Name"].Index) 
+            {   
+                model.SortSerialDevices(sortDirection);
+                sortDirection = !sortDirection;
             }
         }
     }
