@@ -211,7 +211,7 @@ namespace SerialDeviceWidget
         {
             ManagementBaseObject baseObject = (ManagementBaseObject)e.NewEvent["TargetInstance"];//Getting the data from query         
             //Ensure for the proper device adding
-            if ((string)baseObject["ClassGuid"] == "{4d36e978-e325-11ce-bfc1-08002be10318}")
+            if ((string)baseObject["ClassGuid"] == USBGuidString)
             {
                 string deviceName = baseObject["Caption"].ToString();
                 LaunchToastNotification("New serial device added", deviceName);
@@ -248,7 +248,7 @@ namespace SerialDeviceWidget
         {
             ManagementBaseObject baseObject = (ManagementBaseObject)e.NewEvent["TargetInstance"];
             //Ensure for the proper device removing
-            if ((string)baseObject["ClassGuid"] == "{4d36e978-e325-11ce-bfc1-08002be10318}")
+            if ((string)baseObject["ClassGuid"] == USBGuidString)
             {
                 string deviceName = baseObject["Caption"].ToString();
                 RemoveDevice(deviceName);
